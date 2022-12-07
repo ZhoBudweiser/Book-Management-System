@@ -48,6 +48,17 @@ public class ClientServlet extends BaseServlet {
         resp.getWriter().write(jsonString);
     }
 
+    public void selectByClientPhone(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BufferedReader br = req.getReader();
+        String params = br.readLine();
+
+        String phone = JSON.parseObject(params, String.class);
+        Client client = clientService.selectByPhone(phone);
+        String jsonString = JSON.toJSONString(client);
+        resp.setContentType("text/json;charset=utf-8");
+        resp.getWriter().write(jsonString);
+    }
+
     public void updateByPrimaryKey(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader br = req.getReader();
         String params = br.readLine();

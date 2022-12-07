@@ -27,5 +27,45 @@ public class VipServlet extends BaseServlet {
         resp.setContentType("text/json;charset=utf-8");
         resp.getWriter().write(jsonString);
     }
+    public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BufferedReader br = req.getReader();
+        String params = br.readLine();
 
+        Vip vip = JSON.parseObject(params, Vip.class);
+
+        vipService.add(vip);
+
+        resp.getWriter().write("success");
+    }
+
+    public void selectByPrimaryKey(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BufferedReader br = req.getReader();
+        String params = br.readLine();
+
+        Long id = JSON.parseObject(params, Long.class);
+        Vip vip = vipService.selectByPrimaryKey(id);
+        String jsonString = JSON.toJSONString(vip);
+        resp.setContentType("text/json;charset=utf-8");
+        resp.getWriter().write(jsonString);
+    }
+
+    public void updateByPrimaryKey(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BufferedReader br = req.getReader();
+        String params = br.readLine();
+
+        Vip vip = JSON.parseObject(params, Vip.class);
+        vipService.updateByPrimaryKeySelective(vip);
+
+        resp.getWriter().write("success");
+    }
+
+    public void deleteByPrimaryKey(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BufferedReader br = req.getReader();
+        String params = br.readLine();
+
+        Long id = JSON.parseObject(params, Long.class);
+        vipService.deleteByPrimaryKey(id);
+
+        resp.getWriter().write("success");
+    }
 }

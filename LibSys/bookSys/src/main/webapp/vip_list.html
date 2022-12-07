@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <<meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./Style/skin.css" />
+    </head>
+    <body>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <!-- 头部开始 -->
+            <tr>
+                <td width="17" valign="top" background="./Images/mail_left_bg.gif">
+                    <img src="./Images/left_top_right.gif" width="17" height="29" />
+                </td>
+                <td valign="top" background="./Images/content_bg.gif">
+                    
+                </td>
+                <td width="16" valign="top" background="./Images/mail_right_bg.gif"><img src="./Images/nav_right_bg.gif" width="16" height="29" /></td>
+            </tr>
+            <!-- 中间部分开始 -->
+            <tr>
+                <!--第一行左边框-->
+                <td valign="middle" background="./Images/mail_left_bg.gif">&nbsp;</td>
+                <!--第一行中间内容-->
+                <td valign="top" bgcolor="#F7F8F9">
+                    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <!-- 空白行-->
+                        <tr><td colspan="2" valign="top">&nbsp;</td><td>&nbsp;</td><td valign="top">&nbsp;</td></tr>
+                        <tr>
+                            <td colspan="4">
+                                <table>
+                                    <tr>
+                                        <td width="100" align="center"><img src="./Images/mime.gif" /></td>
+                                        <td valign="bottom"><h3 style="letter-spacing:1px;">会员管理 > 管理会员类型 </h3></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- 一条线 -->
+                        <tr>
+                            <td height="40" colspan="4">
+                                <table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+                                    <tr><td></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- 产品列表开始 -->
+                        <tr>
+                            <td colspan="4">
+                                <div id="app">
+                                    <!--按钮-->
+                                    <el-row>
+                                        <el-button type="primary" plain @click="addVipPre">添加会员类型</el-button>
+                                    </el-row>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <!-- 一条线 -->
+                                        <tr>
+                                            <td height="40" colspan="4">
+                                                <table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+                                                    <tr><td></td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!--添加数据对话框表单-->
+                                    <el-dialog
+                                            title="添加会员类型"
+                                            :visible.sync="addDialogVisible"
+                                            width="30%"
+                                    >
+                                        <el-form ref="form" :model="vip" label-width="80px">
+                                            <el-form-item label="会员名称">
+                                                <el-input v-model="vip.vipName"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="押金">
+                                                <el-input v-model="vip.vipDeposit"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="借阅额度">
+                                                <el-input v-model="vip.vipRentDiscount"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="销售额度">
+                                                <el-input v-model="vip.vipSellDiscount"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="借阅数量">
+                                                <el-input v-model="vip.vipBorrowNum"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="续借次数">
+                                                <el-input v-model="vip.vipRenew"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="借阅期限">
+                                                <el-input v-model="vip.vipBorrowDate"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="保留期限">
+                                                <el-input v-model="vip.vipTime"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="逾期额度">
+                                                <el-input v-model="vip.vipOverdue"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="损坏额度">
+                                                <el-input v-model="vip.vipDamage"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="丢失额度">
+                                                <el-input v-model="vip.vipLose"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item>
+                                                <el-button type="primary" @click="addVip">新增</el-button>
+                                                <el-button @click="addDialogVisible=false">取消</el-button>
+                                            </el-form-item>
+                                        </el-form>
+                                    </el-dialog>
+                                    <!--修改数据对话框表单-->
+                                    <el-dialog
+                                            title="编辑会员类型"
+                                            :visible.sync="editDialogVisible"
+                                            width="30%"
+                                    >
+                                        <el-form ref="form" :model="vip" label-width="80px">
+                                            <el-form-item label="会员名称">
+                                                <el-input v-model="vip.vipName"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="押金">
+                                                <el-input v-model="vip.vipDeposit"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="借阅额度">
+                                                <el-input v-model="vip.vipRentDiscount"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="销售额度">
+                                                <el-input v-model="vip.vipSellDiscount"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="借阅数量">
+                                                <el-input v-model="vip.vipBorrowNum"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="续借次数">
+                                                <el-input v-model="vip.vipRenew"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="借阅期限">
+                                                <el-input v-model="vip.vipBorrowDate"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="保留期限">
+                                                <el-input v-model="vip.vipTime"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="逾期额度">
+                                                <el-input v-model="vip.vipOverdue"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="损坏额度">
+                                                <el-input v-model="vip.vipDamage"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="丢失额度">
+                                                <el-input v-model="vip.vipLose"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item>
+                                                <el-button type="primary" @click="updateVip">提交</el-button>
+                                                <el-button @click="editDialogVisible=false">取消</el-button>
+                                            </el-form-item>
+                                        </el-form>
+                                    </el-dialog>
+                                    <!--表格-->
+                                    <template>
+                                        <el-table
+                                            :data="tableData"
+                                            style="width: 100%">
+
+                                            <el-table-column
+                                                    prop="vipName"
+                                                    label="会员名称"
+                                                    align="center"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="vipDeposit"
+                                                    label="押金"
+                                                    align="center"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="vipRentDiscount"
+                                                    align="center"
+                                                    label="借阅额度"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="vipSellDiscount"
+                                                    align="center"
+                                                    label="销售额度"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="vipBorrowNum"
+                                                    align="center"
+                                                    label="可借数量（本）"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="vipRenew"
+                                                    align="center"
+                                                    label="续借次数"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="vipBorrowDate"
+                                                    align="center"
+                                                    label="借阅期限"
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="vipTime"
+                                                    align="center"
+                                                    label="保留期限"
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="vipOverdue"
+                                                    align="center"
+                                                    label="逾期额度"
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="vipDamage"
+                                                    align="center"
+                                                    label="损坏额度"
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="vipLose"
+                                                    align="center"
+                                                    label="丢失额度"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column align="center" label="操作">
+                                                <template slot-scope="scope">
+                                                    <el-row>
+                                                        <el-button type="primary" @click="editVip(scope.row.vipId)">修改</el-button>
+                                                        <el-button type="danger" @click="deleteVip(scope.row.vipId)">删除</el-button>
+                                                    </el-row>
+                                                </template>
+                                            </el-table-column>
+
+                                        </el-table>
+                                    </template>
+                                    <!--分页工具条-->
+<!--                                    <el-pagination-->
+<!--                                            @size-change="handleSizeChange"-->
+<!--                                            @current-change="handleCurrentChange"-->
+<!--                                            :current-page="currentPage"-->
+<!--                                            :page-sizes="[5, 10, 15, 20]"-->
+<!--                                            :page-size="5"-->
+<!--                                            layout="total, sizes, prev, pager, next, jumper"-->
+<!--                                            :total="totalCount">-->
+<!--                                    </el-pagination>-->
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- 产品列表结束 -->
+                        <tr>
+                            <td height="40" colspan="4">
+                                <table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+                                    <tr><td></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="2%">&nbsp;</td>
+                            <td width="51%" class="left_txt">
+                                <img src="./Images/icon_mail.gif" width="16" height="11"> 2019217192-周布伟，2019218139-朱紫晨<br />
+                            </td>
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td background="./Images/mail_right_bg.gif">&nbsp;</td>
+            </tr>
+            <!-- 底部部分 -->
+            <tr>
+                <td valign="bottom" background="./Images/mail_left_bg.gif">
+                    <img src="./Images/buttom_left.gif" width="17" height="17" />
+                </td>
+                <td background="./Images/buttom_bgs.gif">
+                    <img src="./Images/buttom_bgs.gif" width="17" height="17">
+                </td>
+                <td valign="bottom" background="./Images/mail_right_bg.gif">
+                    <img src="./Images/buttom_right.gif" width="16" height="17" />
+                </td>           
+            </tr>
+        </table>
+    </body>
+    <script src="Js/vue.js"></script>
+    <script src="element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+
+    <script src="Js/axios-0.18.0.js"></script>
+
+    <script>
+        new Vue({
+            el: "#app",
+            mounted(){
+                //当页面加载完成后，发送异步请求，获取数据
+                this.selectVipAll();
+            },
+            methods: {
+                selectVipAll() {
+                    axios({
+                        method:"post",
+                        url:"http://localhost/vip/selectAll",
+                        data:this.vip
+                    }).then(resp =>{
+                        console.log(resp.data);
+                        this.tableData = resp.data;
+                    })
+                },
+                addVipPre() {
+                    this.vip = {
+                        vipName: '',
+                        vipDeposit: '',
+                        vipRentDiscount: '',
+                        vipSellDiscount: '',
+                        vipBorrowNum: '',
+                        vipRenew: '',
+                        vipBorrowDate: '',
+                        vipTime: '',
+                        vipOverdue: '',
+                        vipDamage: '',
+                        vipLose: ''
+                    };
+                    this.addDialogVisible = true;
+                },
+                addVip() {
+                    var _this = this;
+                    axios({
+                        method:"post",
+                        url:"http://localhost/vip/add",
+                        data:_this.vip
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.addDialogVisible = false;
+                            _this.selectVipAll();
+                            _this.$message({
+                                message: '会员添加成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+                editVip(id) {
+                    var _this = this;
+                    console.log(id);
+                    axios({
+                        method:"post",
+                        url:"http://localhost/vip/selectByPrimaryKey",
+                        data:id
+                    }).then(resp =>{
+                        _this.vip.vipId = resp.data.vipId;
+                        _this.vip.vipName = resp.data.vipName;
+                        _this.vip.vipDeposit = resp.data.vipDeposit;
+                        _this.vip.vipRentDiscount = resp.data.vipRentDiscount;
+                        _this.vip.vipSellDiscount = resp.data.vipSellDiscount;
+                        _this.vip.vipBorrowNum = resp.data.vipBorrowNum;
+                        _this.vip.vipRenew = resp.data.vipRenew;
+                        _this.vip.vipBorrowDate = resp.data.vipBorrowDate;
+                        _this.vip.vipTime = resp.data.vipTime;
+                        _this.vip.vipOverdue = resp.data.vipRenew;
+                        _this.vip.vipDamage = resp.data.vipBorrowDate;
+                        _this.vip.vipLose = resp.data.vipTime;
+                        _this.editDialogVisible = true;
+                    })
+                },
+                deleteVip(id) {
+                    var _this = this;
+                    console.log(id);
+                    axios({
+                        method:"post",
+                        url:"http://localhost/vip/deleteByPrimaryKey",
+                        data:id
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.selectVipAll();
+                            _this.$message({
+                                message: '会员删除成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+                updateVip() {
+                    var _this = this;
+                    axios({
+                        method:"post",
+                        url:"http://localhost/vip/updateByPrimaryKey",
+                        data:_this.vip
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.editDialogVisible = false;
+                            _this.selectVipAll();
+                            _this.$message({
+                                message: '会员修改成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+            },
+            data() {
+                return {
+                    // 添加数据对话框是否展示的标记
+                    addDialogVisible: false,
+                    editDialogVisible: false,
+                    // 品牌模型数据
+                    vip: {
+                        vipName: '',
+                        vipDeposit: 0,
+                        vipRentDiscount: 1,
+                        vipSellDiscount: 1,
+                        vipBorrowNum: 0,
+                        vipRenew: 0,
+                        vipBorrowDate: 0,
+                        vipTime: 0,
+                        vipOverdue: 0,
+                        vipDamage: 1,
+                        vipLose: 1
+                    },
+                    // 表格数据
+                    tableData: [{
+                        vipName: '默认',
+                        vipDeposit: 0,
+                        vipRentDiscount: 1,
+                        vipSellDiscount: 1,
+                        vipBorrowNum: 0,
+                        vipRenew: 0,
+                        vipBorrowDate: 0,
+                        vipTime: 0,
+                        vipOverdue: 0,
+                        vipDamage: 1,
+                        vipLose: 1
+                    },],
+                }
+            }
+        })
+
+    </script>
+</html>

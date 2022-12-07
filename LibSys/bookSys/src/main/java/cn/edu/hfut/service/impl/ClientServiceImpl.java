@@ -60,6 +60,19 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client selectByPhone(String clientPhone) {
+        SqlSession sqlSession = factory.openSession();
+
+        ClientMapper mapper = sqlSession.getMapper(ClientMapper.class);
+
+        Client client = mapper.selectByClientPhone(clientPhone);
+
+        sqlSession.close();
+
+        return client;
+    }
+
+    @Override
     public void updateByPrimaryKeySelective(Client client) {
         SqlSession sqlSession = factory.openSession();
 

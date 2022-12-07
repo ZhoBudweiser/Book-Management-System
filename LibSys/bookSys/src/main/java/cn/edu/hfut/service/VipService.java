@@ -8,4 +8,11 @@ public interface VipService {
 
     List<Vip> selectAll();
 
+    Vip selectByPrimaryKey(Long vipId);
+
+    void add(Vip vip);
+
+    void updateByPrimaryKeySelective(Vip vip);
+
+    void deleteByPrimaryKey(Long vipId);
 }

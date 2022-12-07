@@ -29,4 +29,55 @@ public class VipServiceImpl implements VipService {
         return vips;
     }
 
+    @Override
+    public Vip selectByPrimaryKey(Long vipId) {
+        SqlSession sqlSession = factory.openSession();
+
+        VipMapper mapper = sqlSession.getMapper(VipMapper.class);
+
+        Vip vip = mapper.selectByPrimaryKey(vipId);
+
+        sqlSession.close();
+
+        return vip;
+    }
+
+    @Override
+    public void add(Vip vip) {
+        SqlSession sqlSession = factory.openSession();
+
+        VipMapper mapper = sqlSession.getMapper(VipMapper.class);
+
+        mapper.insert(vip);
+        sqlSession.commit();
+
+        sqlSession.close();
+    }
+
+    @Override
+    public void updateByPrimaryKeySelective(Vip vip) {
+        SqlSession sqlSession = factory.openSession();
+
+        VipMapper mapper = sqlSession.getMapper(VipMapper.class);
+
+        mapper.updateByPrimaryKeySelective(vip);
+
+        sqlSession.commit();
+
+        sqlSession.close();
+    }
+
+    @Override
+    public void deleteByPrimaryKey(Long vipId) {
+        SqlSession sqlSession = factory.openSession();
+
+        VipMapper mapper = sqlSession.getMapper(VipMapper.class);
+
+        mapper.deleteByPrimaryKey(vipId);
+
+        sqlSession.commit();
+
+        sqlSession.close();
+    }
+
 }

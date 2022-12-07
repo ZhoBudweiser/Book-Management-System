@@ -10,6 +10,8 @@ public interface ClientService {
 
     Client selectByPrimaryKey(Long clientId);
 
+    Client selectByPhone(String clientPhone);
+
     void add(Client client);
 
     void updateByPrimaryKeySelective(Client client);
