@@ -1,1 +1,8 @@
-cn\edu\hfut\Demo.class
+cn\edu\hfut\service\ClientService.class
+cn\edu\hfut\service\impl\VipServiceImpl.class
+cn\edu\hfut\web\servlet\BaseServlet.class
+cn\edu\hfut\web\servlet\ClientServlet.class
+cn\edu\hfut\util\SqlSessionFactoryUtils.class
+cn\edu\hfut\web\servlet\VipServlet.class
+cn\edu\hfut\service\VipService.class
+cn\edu\hfut\service\impl\ClientServiceImpl.class
