@@ -11,35 +11,46 @@
 
         $(function(){
             $("#btnQuery").click(function(){
-                //0.清理
+                // 清理
                 $("#tbRecord").find("tbody").html("");
-                //1.获取id
+                // 获取id
                 var typeId = $(":radio:checked").prop("value");
-                //2.获取关键字
+                // 获取关键字
                 var keyword = $("#keyword").val();
-                //3.组成url
+                // 组成url
                 var url = "borrow.let?type=doajax&typeId="+typeId+"&keyword="+keyword;
-                //4.发送并获取数据
+                // 发送并获取数据
                 $.get(url,function(data){
                      console.log(data);
-                //5.数据加载到页面
+                // 数据加载到页面
                     if(data==="[]" ){
                         alert("没有信息展示");
                         return;
                     }
 
-                    //1. data=>json对象
+                    // data=>json对象
                     var records = JSON.parse(data);
                     for(var i=0;i<records.length;i++){
                        var record =  records[i];
                        //tr
-                        var tr = $(" <tr align=\"center\" class=\"d\">");
                         var tdPhone = $(" <td>"+record.clientPhone+"</td>");
                         var tdMName = $(" <td>"+record.clientName+"</td>");
                         var tdBName = $("<td>"+record.bookName+"</td>");
                         var tdRentDate = $("<td>"+record.borrowDate+"</td>");
                         var tdBackDate = $("<td>"+ (record.returnDate===undefined?"":record.returnDate)+"</td>");
                         var tdDeposit = $("<td>"+record.expiryDate+"</td>");
+                        var dateDeposit = new Date(record.expiryDate);
+                        if (record.returnDate!==undefined) {
+                            var dateRet = new Date(record.returnDate);
+                        }
+                        var dateNow = new Date();
+                        var tr = undefined;
+                        console.log(record.returnDate!==undefined && dateRet > dateDeposit);
+                        if ( (record.returnDate===undefined && dateDeposit < dateNow) || (record.returnDate!==undefined && dateRet > dateDeposit) ) {
+                            tr = $(" <tr align=\"center\" class=\"d\" bgcolor=#fecdcd>");
+                        } else {
+                            tr = $(" <tr align=\"center\" class=\"d\">");
+                        }
                         //5-td
                         tr.append(tdPhone);
                         tr.append(tdMName);
@@ -47,8 +58,10 @@
                         tr.append(tdRentDate);
                         tr.append(tdBackDate);
                         tr.append(tdDeposit);
+                        // console.log(dateDeposit);
+                        // console.log(dateNow);
 
-                        //加入到表
+                        // 加入到表
                         $("#tbRecord").find("tbody").append(tr);
                     }
 

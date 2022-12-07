@@ -29,19 +29,39 @@ public class ClientBiz {
     return count;
   }
   public int remove(String id) throws Exception {
-    //1.判断会员账号余额 >0 :提示不能删除
+    //账号余额 >0
     Client member = getById(id);
+    if(member.getClientStatus().equals("注销")){
+      throw new Exception("该账户已经被注销");
+    }
     if(member.getClientBalance()>0){
       throw new Exception("此会员消费金额大于0,注销失败");
     }
-    //2.有外键不能删除
-    if(clientDao.exits(id)){
-      throw new Exception("此会员有借阅记录,注销失败");
+//    //有外键不能删除
+//    if(clientDao.exits(id)){
+//      throw new Exception("此会员有借阅记录,注销失败");
+//    }
+    if(member.getClientStatus().equals("冻结")){
+      throw new Exception("该账户冻结中,注销失败");
     }
-    //3.删除
+    //删除
     int count =0;
     try {
       count = clientDao.remove(id);
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return count;
+
+  }
+  public int activate(String id) throws Exception {
+    Client member = getById(id);
+    if(member.getClientStatus().equals("正常")){
+      throw new Exception("该账户已经被激活");
+    }
+    int count =0;
+    try {
+      count = clientDao.activate(id);
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }

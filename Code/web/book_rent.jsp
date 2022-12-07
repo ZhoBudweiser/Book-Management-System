@@ -55,11 +55,11 @@
             $("#btnSubmit").prop("disabled","disabled");
             var member = null;
             $("#btnQuery").click(function(){
-                //1.获取用户输入的身份证号
+                //获取手机号
                 var content = $("#memberId").val();
                 //判断为null ,""
                 if(!content){
-                   alert("请输入用户号");
+                   alert("请输入用户手机号");
                    return;
                 }
                 //2.调用js-ajax()/post()/get
@@ -68,7 +68,7 @@
                     //json字符串
                     //{"balance":145.0,"id":1,"idNumber":"300312199506150011","name":"andy","pwd":"andyliu","regdate":1627747200000,"tel":"13374645654","type":{"amount":"5","discount":100.0,"id":1,"keepDay":30,"name":"普通会员","recharge":100},"typeId":1}
                     console.log(data);
-                    //1.json字符串--》json对象
+                    //json字符串--》json对象
                     member = JSON.parse(data);
                     if(null == member){
                         alert("查无此人");
@@ -80,7 +80,7 @@
                     }
 
                     console.log(member.clientBalance+","+member.clientGrade+","+member.clientBorrowNum+","+member.clientName);
-                    //2.给组件赋值
+                    //给组件赋值
                     $("#name").val(member.clientName);
                     $("#type").val(member.clientGrade);
                     $("#amount").val(member.clientBorrowNum);
@@ -133,8 +133,9 @@
                     var tdName = $("<td>"+book.bookName+"</td>");
                     //借阅日期：系统当前时间
                     //归还日期：系统当前时间 +会员等级中.keeyDay
+                    console.log(member);
                     var tdRentDate = $("<td>"+getCurrentDate()+"</td>");
-                    var tdBackDate = $("<td>"+getBackDate(7)+"</td>");
+                    var tdBackDate = $("<td>"+getBackDate(member.clientVip.vipBorrowDate)+"</td>");
                     var tdPublish = $("<td>"+book.bookPublish+"</td>");
                     var tdAddress = $("<td>"+book.bookNowNum+"</td>");
                     var tdPrice = $("<td>"+book.bookPrice+"</td>");

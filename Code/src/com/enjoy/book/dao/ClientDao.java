@@ -49,6 +49,13 @@ public class ClientDao {
         DBHelper.close(conn);
         return count;
     }
+    public int activate(String id) throws SQLException {
+        Connection conn = DBHelper.getConnection();
+        String sql="update v_c_status set `clientStatus` = '正常' where clientPhone=?; ";
+        int count = runner.update(conn,sql,id);
+        DBHelper.close(conn);
+        return count;
+    }
 //
 //    /**
 //     * 会员的身份证号码
@@ -84,6 +91,14 @@ public class ClientDao {
         Connection conn = DBHelper.getConnection();
         String sql="select `clientPhone`, `clientName`, `clientSex`, `clientGrade`,`clientBalance`, `clientStatus`, `clientBorrowNum` from client;";
         List<Client> members = runner.query(conn,sql,new BeanListHandler<Client>(Client.class));
+        if (members != null) {
+            for (Client member : members) {
+                String id = member.getClientGrade();
+                sql = "select `vipName`, `vipDeposit`, `vipRentDiscount`, `vipSellDiscount`, `vipBorrowNum`, `vipRenew`, `vipBorrowDate`, `vipTime`, `vipOverdue`, `vipDamage`, `vipLose` from vip where `vipName`=?;";
+                Vip vip = runner.query(conn,sql,new BeanHandler<Vip>(Vip.class),id);
+                member.setClientVip(vip);
+            }
+        }
         DBHelper.close(conn);
         return  members;
     }

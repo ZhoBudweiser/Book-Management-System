@@ -64,22 +64,44 @@
                                                         <th>余额</th>
                                                         <th>状态</th>
                                                         <th>借阅数量</th>
+                                                        <th>可借数量</th>
                                                         <th>操作</th>
                                                     </tr>
                                                     <c:forEach items="${clientList}" var="m">
-                                                        <tr align="center" class="d">
-                                                            <td>${m.clientName}</td>
-                                                            <td>${m.clientPhone}</td>
-                                                            <td>${m.clientSex}</td>
-                                                            <td>${m.clientGrade}</td>
-                                                            <td>${m.clientBalance}</td>
-                                                            <td>${m.clientStatus}</td>
-                                                            <td>${m.clientBorrowNum}</td>
-                                                            <td>
-                                                                <a onclick="return confirm('确认修改');" href="vip.let?type=modifypre&id=${m.clientPhone}">修改</a>&nbsp;&nbsp;
-                                                                <a onclick="return confirm('确认注销');" href="vip.let?type=remove&id=${m.clientPhone}">注销</a>
-                                                            </td>
-                                                        </tr>
+                                                        <c:if test="${m.clientStatus=='注销' || m.clientStatus=='冻结'}">
+                                                            <tr align="center" class="d" bgcolor=#fecdcd>
+                                                                <td>${m.clientName}</td>
+                                                                <td>${m.clientPhone}</td>
+                                                                <td>${m.clientSex}</td>
+                                                                <td>${m.clientGrade}</td>
+                                                                <td>${m.clientBalance}</td>
+                                                                <td>${m.clientStatus}</td>
+                                                                <td>${m.clientBorrowNum}</td>
+                                                                <td>${m.clientVip.vipBorrowNum-m.clientBorrowNum}</td>
+                                                                <td>
+                                                                    <a onclick="return confirm('确认修改');" href="vip.let?type=modifypre&id=${m.clientPhone}">修改</a>&nbsp;&nbsp;
+                                                                    <a onclick="return confirm('确认注销');" href="vip.let?type=remove&id=${m.clientPhone}">注销</a>&nbsp;&nbsp;
+                                                                    <a onclick="return confirm('确认激活');" href="vip.let?type=activate&id=${m.clientPhone}">激活</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
+                                                        <c:if test="${m.clientStatus=='正常'}">
+                                                            <tr align="center" class="d">
+                                                                <td>${m.clientName}</td>
+                                                                <td>${m.clientPhone}</td>
+                                                                <td>${m.clientSex}</td>
+                                                                <td>${m.clientGrade}</td>
+                                                                <td>${m.clientBalance}</td>
+                                                                <td>${m.clientStatus}</td>
+                                                                <td>${m.clientBorrowNum}</td>
+                                                                <td>${m.clientVip.vipBorrowNum-m.clientBorrowNum}</td>
+                                                                <td>
+                                                                    <a onclick="return confirm('确认修改');" href="vip.let?type=modifypre&id=${m.clientPhone}">修改</a>&nbsp;&nbsp;
+                                                                    <a onclick="return confirm('确认注销');" href="vip.let?type=remove&id=${m.clientPhone}">注销</a>&nbsp;&nbsp;
+                                                                    <a onclick="return confirm('确认注销');" href="vip.let?type=activate&id=${m.clientPhone}">激活</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
                                                     </c:forEach>
                                                 </table>
                                             </form>

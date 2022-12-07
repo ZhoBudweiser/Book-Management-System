@@ -54,6 +54,11 @@
                                 <table width="100%">
                                     <tr>
                                         <td colspan="2">
+                                            <a>充值使用正号，提现使用负号</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
                                             <form action="vip.let?type=modifyrecharge" method="post">
                                                 <table width="100%"class="cont">
                                                     <tr>

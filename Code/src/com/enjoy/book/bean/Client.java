@@ -9,6 +9,7 @@ public class Client implements Serializable {
   private String clientName;
   private String clientSex;
   private String clientGrade;
+  private Vip clientVip;
   private double clientBalance;
   private String clientStatus;
   private long clientBorrowNum;
@@ -74,6 +75,15 @@ public class Client implements Serializable {
 
   public void setClientBorrowNum(long clientBorrowNum) {
     this.clientBorrowNum = clientBorrowNum;
+  }
+
+
+  public Vip getClientVip() {
+    return clientVip;
+  }
+
+  public void setClientVip(Vip clientVip) {
+    this.clientVip = clientVip;
   }
 
 }

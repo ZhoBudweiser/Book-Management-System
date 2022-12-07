@@ -50,7 +50,7 @@ public class BorrowBiz {
                 Vip vip = vipDao.getById(member.getClientGrade());
                 long day = vip.getVipBorrowDate();
                 //做时间的计算(Java)
-                java.sql.Date  rentDate = borrow.getBorrowDate();
+                java.sql.Date rentDate = borrow.getBorrowDate();
                 //转成毫秒数
                 java.sql.Date backDate = DateHelper.getNewDate(rentDate,day);
                 borrow.setReturnDate(backDate);
@@ -77,30 +77,12 @@ public class BorrowBiz {
      */
     public int add(String memberId,List<String> bookIdList){
         try {
-            //1.启动事务
+            // 启动事务
             DBHelper.beginTransaction();
-            double total = 0;
-            //2.拿到借阅的书籍编号
+            // 拿到借阅的书籍编号
             for(String bookId: bookIdList){
-                //书籍编号
-
-                //书籍对象
-//                Booknew book = bookDao.getById(bookId);
-//                Vip vip = vipDao.getById(memberId);
-//                //调用价格
-//                double price = book.getBookPrice();
-//                double regPrice = price*vip.getVipRentDiscount();
-//                total += regPrice;
-//                long time = vip.getVipTime();
-                //算押金
-                //调用recordDao-->insert
                 recordDao.add(memberId, bookId);
-                //调用bookDao --> update 数量
-//                bookDao.modify(bookId,-1);
-
             }
-            //调用memberDao -->update 余额
-            memberDao.modifyBalance(memberId,0-total);
             //.事务结束:
             DBHelper.commitTransaction();//事务提交:成功
 

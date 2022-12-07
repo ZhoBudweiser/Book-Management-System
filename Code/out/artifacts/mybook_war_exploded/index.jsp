@@ -1,17 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2021/11/2 0002
-  Time: 16:55
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html >
 <head>
-  <title>书刊出租和零售后台管理中心</title>
+  <title>网上图书馆后台管理中心</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="description" content="书刊出租和零售后台管理系统" />
-  <meta name="keywords" content="书刊,出租,零售,网站管理系统" />
+  <meta name="description" content="网上图书馆后台管理系统" />
+  <meta name="keywords" content="书刊,出租,网站管理系统" />
   <meta name="Author" content="周布伟,朱紫晨" />
   <meta name="CopyRight" content="合肥工业大学" />
 </head>

@@ -80,7 +80,6 @@
                         </table>
                         <ul class="RM">
                             <li><a href="./book_rent.jsp" target="main">图书借阅</a></li>
-                            <li><a href="./book_sell.jsp" target="main">图书零售</a></li>
                             <li><a href="./returnnew_list.jsp" target="main">图书归还</a></li>
                         </ul>
                     </div>
@@ -93,11 +92,8 @@
                         </table>
                         <ul class="RM">
                             <li><a href="./rent_list.jsp" target="main">借阅历史信息</a></li>
-                            <li><a href="./sell_list.jsp" target="main">销售历史信息</a></li>
                             <li><a href="./rent_timelist.jsp" target="main">借阅时间段信息</a></li>
-                            <li><a href="./sell_timelist.jsp" target="main">销售时间段信息</a></li>
                             <li><a href="./client_borrowlist.jsp" target="main">用户借阅数量信息</a></li>
-                            <li><a href="./client_selllist.jsp" target="main">用户销售数量信息</a></li>
                         </ul>
                     </div>
                     <!-- *********** -->
@@ -110,9 +106,6 @@
                         </table>
                         <ul class="RM">
                             <li><a href="./set_pwd.jsp" target="main">修改密码</a></li>
-                            <li><a href="./type.let?type=save" target="main">数据库备份</a></li>
-                            <li><a href="./type.let?type=data" target="main">数据库导入</a></li>
-                        
                         </ul>
                     </div>
                    

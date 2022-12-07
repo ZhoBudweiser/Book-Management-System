@@ -55,16 +55,15 @@ public class BorrowServlet extends HttpServlet {
 
         switch(type){
             case "add":
-                //1.借阅的会员编号
+                // 借阅的会员编号
                 String memberId = req.getParameter("mid");
-                //2.借阅的书籍编号
+                // 借阅的书籍编号
                 String ids = req.getParameter("ids");
                 String []strs= ids.split("_");
                 List<String> bookIds = new ArrayList<String>();
                 for(String s:strs){
                     bookIds.add(s);
                 }
-                //4.调用biz
                int count=  recordBiz.add(memberId,bookIds);
                if(count>0){
                    out.println("<script>alert('图书借阅成功');location.href='main.jsp';</script>");

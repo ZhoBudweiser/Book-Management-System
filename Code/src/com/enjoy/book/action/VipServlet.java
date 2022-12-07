@@ -27,20 +27,6 @@ public class VipServlet extends HttpServlet {
         doPost(req, resp);
     }
 
-    /**
-     * /vip.let?type=addpre 添加准备(MemberTypes)
-     * /vip.let?type=add
-     * /vip.let?type=modifypre&id=xx 修改准备(MemberTypes ,Member)
-     * /vip.let?type=modify 修改
-     * /vip.let?type=remove&id=xx 删除
-     * /vip.let?type=query
-     * /vip.let?type=modifyrecharge 充值
-     * /vip.let?type=doajax&idn=xx 通过ajax请求会员信息
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //字符编码
@@ -101,12 +87,18 @@ public class VipServlet extends HttpServlet {
                 String sex2 =  req.getParameter("sex");
                 String vipType2 = req.getParameter("vipType");
                 String tel2 =  req.getParameter("tel");
-                int count3 = clientBiz.modify(tel2,name2,sex2,vipType2);
-                 if(count3>0){
-                     out.println("<script>alert('会员修改成功'); location.href='vip.let?type=query';</script>");
-                 }else{
-                     out.println("<script>alert('会员修改失败'); location.href='vip.let?type=query';</script>");
-                 }
+                Client client = clientBiz.getById(tel2);
+                Vip vip = vipBiz.getById(vipType2);
+                if (client.getClientBorrowNum() > vip.getVipBorrowNum()) {
+                    out.println("<script>alert('当前借阅超过会员借阅上限！'); location.href='vip.let?type=query';</script>");
+                } else {
+                    int count3 = clientBiz.modify(tel2,name2,sex2,vipType2);
+                    if(count3>0){
+                        out.println("<script>alert('会员修改成功'); location.href='vip.let?type=query';</script>");
+                    }else{
+                        out.println("<script>alert('会员修改失败'); location.href='vip.let?type=query';</script>");
+                    }
+                }
                 break;
             case "remove":
                  String memId = req.getParameter("id");
@@ -122,6 +114,20 @@ public class VipServlet extends HttpServlet {
                     out.println("<script>alert('"+e.getMessage()+"'); location.href='vip.let?type=query';</script>");
                 }
                 break;
+            case "activate":
+                String memId2 = req.getParameter("id");
+                try {
+                    int count2 = clientBiz.activate(memId2);
+                    if(count2>0){
+                        out.println("<script>alert('会员激活成功'); location.href='vip.let?type=query';</script>");
+                    }else{
+                        out.println("<script>alert('会员激活失败'); location.href='vip.let?type=query';</script>");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    out.println("<script>alert('"+e.getMessage()+"'); location.href='vip.let?type=query';</script>");
+                }
+                break;
             case "query":
                 List<Client> clientList = clientBiz.getAll();
                 req.setAttribute("clientList",clientList);
@@ -131,11 +137,18 @@ public class VipServlet extends HttpServlet {
                 //获取手机号和金额
                 String idNumber3 = req.getParameter("idNumber");
                 double amount = Double.parseDouble(req.getParameter("amount"));
-                int count4 = clientBiz.modifyBalance(idNumber3,amount);
-                if(count4>0){
-                    out.println("<script>alert('操作成功'); location.href='vip.let?type=query';</script>");
-                }else{
-                    out.println("<script>alert('操作失败'); location.href='vip.let?type=query';</script>");
+                Client client2 = clientBiz.getById(idNumber3);
+                if (client2 == null) {
+                    out.println("<script>alert('查无此人，操作失败！'); location.href='vip.let?type=query';</script>");
+                } else if (amount < 0 && client2.getClientBalance() < -amount) {
+                    out.println("<script>alert('超出余额，操作失败！'); location.href='vip.let?type=query';</script>");
+                } else {
+                    int count4 = clientBiz.modifyBalance(idNumber3,amount);
+                    if(count4>0){
+                        out.println("<script>alert('操作成功'); location.href='vip.let?type=query';</script>");
+                    }else{
+                        out.println("<script>alert('操作失败'); location.href='vip.let?type=query';</script>");
+                    }
                 }
                 break;
             case "doajax":
@@ -144,10 +157,11 @@ public class VipServlet extends HttpServlet {
                 //2.获取 member对象
                 Client member1 = clientBiz.getByIdNumber(idNum);
                 if (null != member1) {
-                    Vip vip = vipBiz.getById(member1.getClientGrade());
+                    Vip vip2 = vipBiz.getById(member1.getClientGrade());
+                    member1.setClientVip(vip2);
                     //2.2 修改member借书数量
                     {
-                        long size = vip.getVipBorrowNum()-member1.getClientBorrowNum();
+                        long size = vip2.getVipBorrowNum()-member1.getClientBorrowNum();
                         member1.setClientBorrowNum(size);
                     }
                 }

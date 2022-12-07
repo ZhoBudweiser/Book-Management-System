@@ -61,7 +61,7 @@
                                                         <th>会员名称</th>
                                                         <th>押金</th>
                                                         <th>出租折扣</th>
-                                                        <th>销售折扣</th>
+<%--                                                        <th>销售折扣</th>--%>
                                                         <th>可借阅数量</th>
                                                         <th>可续借次数</th>
                                                         <th>可借阅天数</th>
@@ -75,7 +75,7 @@
                                                             <td>${t.vipName}</td>
                                                             <td>${t.vipDeposit}</td>
                                                             <td>${t.vipRentDiscount}</td>
-                                                            <td>${t.vipSellDiscount}</td>
+<%--                                                            <td>${t.vipSellDiscount}</td>--%>
                                                             <td>${t.vipBorrowNum}</td>
                                                             <td>${t.vipRenew}</td>
                                                             <td>${t.vipBorrowDate}</td>
