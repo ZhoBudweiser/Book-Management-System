@@ -1,6 +1,7 @@
 package cn.edu.hfut.service;
 
 import cn.edu.hfut.model.Client;
+import cn.edu.hfut.model.VBorrowClient;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface ClientService {
 
     Client selectByPrimaryKey(Long clientId);
 
-    Client selectByPhone(String clientPhone);
+    VBorrowClient selectByPhone(String clientPhone);
 
     void add(Client client);
 

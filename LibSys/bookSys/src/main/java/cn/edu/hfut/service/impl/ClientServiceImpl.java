@@ -1,8 +1,10 @@
 package cn.edu.hfut.service.impl;
 
 import cn.edu.hfut.mapper.ClientMapper;
+import cn.edu.hfut.mapper.ViewMapper;
 import cn.edu.hfut.mapper.VipMapper;
 import cn.edu.hfut.model.Client;
+import cn.edu.hfut.model.VBorrowClient;
 import cn.edu.hfut.model.Vip;
 import cn.edu.hfut.service.ClientService;
 import cn.edu.hfut.util.SqlSessionFactoryUtils;
@@ -60,16 +62,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client selectByPhone(String clientPhone) {
+    public VBorrowClient selectByPhone(String clientPhone) {
         SqlSession sqlSession = factory.openSession();
 
-        ClientMapper mapper = sqlSession.getMapper(ClientMapper.class);
+        ViewMapper mapper = sqlSession.getMapper(ViewMapper.class);
 
-        Client client = mapper.selectByClientPhone(clientPhone);
+        VBorrowClient vBorrowClient = mapper.selectByClientPhone(clientPhone);
 
         sqlSession.close();
 
-        return client;
+        return vBorrowClient;
     }
 
     @Override

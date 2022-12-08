@@ -1,6 +1,7 @@
 package cn.edu.hfut.web.servlet;
 
 import cn.edu.hfut.model.Client;
+import cn.edu.hfut.model.VBorrowClient;
 import cn.edu.hfut.service.ClientService;
 import cn.edu.hfut.service.impl.ClientServiceImpl;
 import com.alibaba.fastjson.JSON;
@@ -53,7 +54,7 @@ public class ClientServlet extends BaseServlet {
         String params = br.readLine();
 
         String phone = JSON.parseObject(params, String.class);
-        Client client = clientService.selectByPhone(phone);
+        VBorrowClient client = clientService.selectByPhone(phone);
         String jsonString = JSON.toJSONString(client);
         resp.setContentType("text/json;charset=utf-8");
         resp.getWriter().write(jsonString);

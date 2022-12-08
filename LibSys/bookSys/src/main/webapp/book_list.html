@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <<meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./Style/skin.css" />
+    </head>
+    <body>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <!-- 头部开始 -->
+            <tr>
+                <td width="17" valign="top" background="./Images/mail_left_bg.gif">
+                    <img src="./Images/left_top_right.gif" width="17" height="29" />
+                </td>
+                <td valign="top" background="./Images/content_bg.gif">
+                    
+                </td>
+                <td width="16" valign="top" background="./Images/mail_right_bg.gif"><img src="./Images/nav_right_bg.gif" width="16" height="29" /></td>
+            </tr>
+            <!-- 中间部分开始 -->
+            <tr>
+                <!--第一行左边框-->
+                <td valign="middle" background="./Images/mail_left_bg.gif">&nbsp;</td>
+                <!--第一行中间内容-->
+                <td valign="top" bgcolor="#F7F8F9">
+                    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <!-- 空白行-->
+                        <tr><td colspan="2" valign="top">&nbsp;</td><td>&nbsp;</td><td valign="top">&nbsp;</td></tr>
+                        <tr>
+                            <td colspan="4">
+                                <table>
+                                    <tr>
+                                        <td width="100" align="center"><img src="./Images/mime.gif" /></td>
+<!--                                        <td valign="bottom"><h3 style="letter-spacing:1px;">会员管理 > 管理会员 </h3></td>-->
+                                        <td>
+                                            <template>
+                                                <el-breadcrumb separator=">">
+                                                    <el-breadcrumb-item>图书管理</el-breadcrumb-item>
+                                                    <el-breadcrumb-item>图书列表</el-breadcrumb-item>
+                                                </el-breadcrumb>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- 一条线 -->
+                        <tr>
+                            <td height="40" colspan="4">
+                                <table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+                                    <tr><td></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- 产品列表开始 -->
+                        <tr>
+                            <td colspan="4">
+                                <div id="app">
+                                    <!--按钮-->
+                                    <el-row>
+                                        <el-button type="primary" plain @click="addClientPre">会员开卡</el-button>
+                                    </el-row>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <!-- 一条线 -->
+                                        <tr>
+                                            <td height="40" colspan="4">
+                                                <table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+                                                    <tr><td></td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!--添加数据对话框表单-->
+                                    <el-dialog
+                                            title="添加图书"
+                                            :visible.sync="addDialogVisible"
+                                            width="30%"
+                                    >
+                                        <el-form ref="form" :model="book" label-width="80px">
+                                            <el-form-item label="图书名称">
+                                                <el-input v-model="book.bookName"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="ISBN号">
+                                                <el-input v-model="book.bookIsbn"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="作者">
+                                                <el-select v-model="book.bookAuthorId" placeholder="请选择">
+                                                    <el-option
+                                                            v-for="item in authorOptions"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书类型">
+                                                <el-select v-model="book.bookTypeId" placeholder="请选择">
+                                                    <el-option
+                                                            v-for="item in typeOptions"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书总量">
+                                                <el-input v-model="book.bookTotalNum"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书价格">
+                                                <el-input v-model="book.bookPrice"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书简介">
+                                                <el-input v-model="book.bookIntroduction"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item>
+                                                <el-button type="primary" @click="addClient">新增</el-button>
+                                                <el-button @click="addDialogVisible=false">取消</el-button>
+                                            </el-form-item>
+                                        </el-form>
+                                    </el-dialog>
+                                    <!--修改数据对话框表单-->
+                                    <el-dialog
+                                            title="编辑图书"
+                                            :visible.sync="editDialogVisible"
+                                            width="30%"
+                                    >
+                                        <el-form ref="form" :model="book" label-width="80px">
+                                            <el-form-item label="图书名称">
+                                                <el-input v-model="book.bookName"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="ISBN号">
+                                                <el-input v-model="book.bookIsbn"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="作者">
+                                                <el-select v-model="book.bookAuthorId" placeholder="请选择">
+                                                    <el-option
+                                                            v-for="item in authorOptions"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书类型">
+                                                <el-select v-model="book.bookTypeId" placeholder="请选择">
+                                                    <el-option
+                                                            v-for="item in typeOptions"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书总量">
+                                                <el-input v-model="book.bookTotalNum"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书价格">
+                                                <el-input v-model="book.bookPrice"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item label="图书简介">
+                                                <el-input v-model="book.bookIntroduction"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item>
+                                                <el-button type="primary" @click="addClient">新增</el-button>
+                                                <el-button @click="addDialogVisible=false">取消</el-button>
+                                            </el-form-item>
+                                        </el-form>
+                                    </el-dialog>
+                                    <!--表格-->
+                                    <template>
+                                        <el-table
+                                            :data="bookTableData"
+                                            style="width: 100%"
+                                            :row-class-name="tableRowClassName"
+                                            @selection-change="handleSelectionChange">
+
+                                            <el-table-column
+                                                    prop="bookName"
+                                                    label="图书名称"
+                                                    align="center"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="bookIsbn"
+                                                    label="ISBN号"
+                                                    align="center"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="bookAuthorId"
+                                                    align="center"
+                                                    label="作者"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="bookTypeId"
+                                                    align="center"
+                                                    label="图书类型"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="bookTotalNum"
+                                                    align="center"
+                                                    label="图书总量（本）"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column
+                                                    prop="bookLeftNum"
+                                                    align="center"
+                                                    label="剩余数量（本）"
+                                            >
+                                            </el-table-column>
+
+                                            <el-table-column align="center" label="操作">
+                                                <template slot-scope="scope">
+                                                    <el-button type="primary" @click="editBook(scope.row.bookId)">修改</el-button>
+                                                </template>
+                                            </el-table-column>
+
+                                        </el-table>
+                                    </template>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- 产品列表结束 -->
+                        <tr>
+                            <td height="40" colspan="4">
+                                <table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+                                    <tr><td></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="2%">&nbsp;</td>
+                            <td width="51%" class="left_txt">
+                                <img src="./Images/icon_mail.gif" width="16" height="11"> 2019217192-周布伟，2019218139-朱紫晨<br />
+                            </td>
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td background="./Images/mail_right_bg.gif">&nbsp;</td>
+            </tr>
+            <!-- 底部部分 -->
+            <tr>
+                <td valign="bottom" background="./Images/mail_left_bg.gif">
+                    <img src="./Images/buttom_left.gif" width="17" height="17" />
+                </td>
+                <td background="./Images/buttom_bgs.gif">
+                    <img src="./Images/buttom_bgs.gif" width="17" height="17">
+                </td>
+                <td valign="bottom" background="./Images/mail_right_bg.gif">
+                    <img src="./Images/buttom_right.gif" width="16" height="17" />
+                </td>           
+            </tr>
+        </table>
+    </body>
+    <script src="Js/vue.js"></script>
+    <script src="element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+
+    <script src="Js/axios-0.18.0.js"></script>
+
+    <script>
+        new Vue({
+            el: "#app",
+            mounted(){
+                //当页面加载完成后，发送异步请求，获取数据
+                this.selectAuthorAll();
+                this.selectPublisherAll();
+                this.selectBookAll();
+            },
+            methods: {
+                selectBookAll(){
+                    axios({
+                        method:"post",
+                        url:"http://localhost/book/selectAll",
+                        data:this.book
+                    }).then(resp =>{
+                        this.bookTableData = resp.data;
+                    })
+                },
+                selectAuthorAll(){
+                    axios({
+                        method:"post",
+                        url:"http://localhost/author/selectAll",
+                        data:this.author
+                    }).then(resp =>{
+                        console.log(resp.data);
+                        this.authorData = resp.data;
+                        this.authorOptions.length = 0;
+                        for (i in this.authorData) {
+                            this.vipOptions.push({
+                                value: this.vipData[i].vipId,
+                                label: this.vipData[i].vipName
+                            });
+                        }
+                        console.log(this.vipOptions);
+                    })
+                },
+                selectPublisherAll(){
+                    axios({
+                        method:"post",
+                        url:"http://localhost/publisher/selectAll",
+                        data:this.vip
+                    }).then(resp =>{
+                        console.log(resp.data);
+                        this.vipData = resp.data;
+                        this.vipOptions.length = 0;
+                        for (i in this.vipData) {
+                            this.vipOptions.push({
+                                value: this.vipData[i].vipId,
+                                label: this.vipData[i].vipName
+                            });
+                        }
+                        console.log(this.vipOptions);
+                    })
+                },
+                addBookPre() {
+                    this.book = {
+                        bookName: '',
+                        bookIsbn: '',
+                        bookPrice: 0,
+                        bookAuthorId: 0,
+                        bookTypeId: 0,
+                        publisherId: 0,
+                        bookTotalNum: 0,
+                        bookIntroduction: '',
+                        bookNowNum: 0,
+                        bookReserveNum: 0,
+                    };
+                    this.addDialogVisible = true;
+                },
+                addBook() {
+                    var _this = this;
+                    _this.book.bookNowNum = _this.book.bookTotalNum;
+                    _this.book.bookReserveNum = 0;
+
+                    axios({
+                        method:"post",
+                        url:"http://localhost/book/add",
+                        data:_this.book
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.addDialogVisible = false;
+                            _this.selectClientAll();
+                            _this.$message({
+                                message: '客户添加成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+                editClient(id) {
+                    var _this = this;
+                    console.log(id);
+
+                    axios({
+                        method:"post",
+                        url:"http://localhost/client/selectByPrimaryKey",
+                        data:id
+                    }).then(resp =>{
+                        _this.client.clientName = resp.data.clientName;
+                        _this.client.clientPhone = resp.data.clientPhone;
+                        _this.client.clientSex = resp.data.clientSex;
+                        _this.client.vipId = resp.data.vipId;
+                        _this.client.clientBalance = resp.data.clientBalance;
+                        _this.client.clientBorrowNum = resp.data.clientBorrowNum;
+                        _this.client.clientStatus = resp.data.clientStatus;
+                        _this.client.clientId = resp.data.clientId;
+                        _this.editDialogVisible = true;
+                    })
+                },
+                activateClient(id) {
+                    var _this = this;
+                    console.log(id);
+
+                    axios({
+                        method:"post",
+                        url:"http://localhost/client/activateByPrimaryKey",
+                        data:id
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.selectClientAll();
+                            _this.$message({
+                                message: '客户激活成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+                logoutClient(id) {
+                    var _this = this;
+                    console.log(id);
+
+                    axios({
+                        method:"post",
+                        url:"http://localhost/client/logoutByPrimaryKey",
+                        data:id
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.selectClientAll();
+                            _this.$message({
+                                message: '客户注销成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+                updateClient() {
+                    var _this = this;
+
+                    axios({
+                        method:"post",
+                        url:"http://localhost/client/updateByPrimaryKey",
+                        data:_this.client
+                    }).then(resp =>{
+                        if (resp.data == "success") {
+                            _this.editDialogVisible = false;
+                            _this.selectClientAll();
+                            _this.$message({
+                                message: '客户修改成功！',
+                                type: 'success'
+                            });
+                        }
+                    })
+                },
+                // tableRowClassName({row, rowIndex}) {
+                //     if (rowIndex === 1) {
+                //         return 'warning-row';
+                //     } else if (rowIndex === 3) {
+                //         return 'success-row';
+                //     }
+                //     return '';
+                // },
+                // //分页
+                // handleSizeChange(val) {
+                //     //console.log(`每页 ${val} 条`);
+                //     // 重新设置每页显示的条数
+                //     this.pageSize  = val;
+                //     this.selectAll();
+                // },
+                // handleCurrentChange(val) {
+                //     //console.log(`当前页: ${val}`);
+                //     // 重新设置当前页码
+                //     this.currentPage  = val;
+                //     this.selectAll();
+                // },
+            },
+            data() {
+                return {
+                    // 添加数据对话框是否展示的标记
+                    addDialogVisible: false,
+                    editDialogVisible: false,
+                    // 客户模型数据
+                    client: {
+                        clientName: '',
+                        clientPhone: '',
+                        clientSex: '',
+                        vipId: 1,
+                        clientBalance: 0,
+                        clientBorrowNum: 0,
+                        status: ''
+                    },
+                    sexOptions: [{
+                        value: '男',
+                        label: '男'
+                    }, {
+                        value: '女',
+                        label: '女'
+                    }],
+                    vipOptions: [
+
+                    ],
+                    // 表格数据
+                    bookTableData: [
+
+                    ],
+                    vipData: [
+
+                    ]
+                }
+            }
+        })
+
+    </script>
+</html>
