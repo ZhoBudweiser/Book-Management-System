@@ -6,6 +6,7 @@
     <script src="Js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
+<div id="app">
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <!-- 头部开始 -->
         <tr>
@@ -31,7 +32,19 @@
                             <table>
                                 <tr>
                                     <td width="100" align="center"><img src="./Images/mime.gif" /></td>
-                                    <td valign="bottom"><h3 style="letter-spacing:1px;">常用功能 > 图书借阅 </h3></td>
+<!--                                    <td valign="bottom"><h3 style="letter-spacing:1px;">常用功能 > 图书借阅 </h3></td>-->
+                                    <td>
+                                        <template>
+                                            <el-breadcrumb separator=">">
+<!--                                                <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>-->
+<!--                                                <el-breadcrumb-item-->
+<!--                                                ><a href="/">promotion management</a></el-breadcrumb-item-->
+<!--                                                >-->
+                                                <el-breadcrumb-item>常用功能</el-breadcrumb-item>
+                                                <el-breadcrumb-item>图书借阅</el-breadcrumb-item>
+                                            </el-breadcrumb>
+                                        </template>
+                                    </td>
                                 </tr>
                             </table>
                         </td>
@@ -50,94 +63,193 @@
                         <td width="96%">
                             <fieldset>
                                 <legend>查询会员</legend>
-                                <table width="100%" border="0" class="cont"  >
-                                    <tr>
-                                        <td colspan="4">
-                                            <div id="app">
+                                    <table width="100%" border="0" class="cont"  >
+                                        <tr>
+                                            <td colspan="4">
                                                 <!--搜索表单-->
                                                 <el-form :inline="true" :model="client" class="demo-form-inline">
 
                                                     <el-form-item label="客户手机号">
-                                                        <el-input v-model="client.clientPhone" placeholder="客户手机号"></el-input>
+                                                        <el-input v-model="client.clientPhone" placeholder="在此输入客户手机号"></el-input>
                                                     </el-form-item>
 
                                                     <el-form-item>
-                                                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                                                        <el-button type="primary" @click="selectClient">查询</el-button>
                                                     </el-form-item>
 
                                                 </el-form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="8%" class="run-right">客户姓名</td>
-                                        <td width="17%"><input class="text" type="text" id="name" disabled/></td>
-                                        <td width="8%" class="run-right">会员类型</td>
-                                        <td width="17%"><input class="text" type="text" id="type" disabled/></td>
-                                        <td width="8%" class="run-right">可借数量</td>
-                                        <td width="17%"><input class="text" type="text" id="amount"  disabled/></td>
-                                        <td width="8%" class="run-right">账户余额</td>
-                                        <td width="17%"><input class="text" type="text" id="balance"  disabled/></td>
-                                    </tr>
-                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <el-table
+                                                        :data="clientTableData"
+                                                        style="width: 100%"
+                                                >
+                                                    <el-table-column
+                                                            prop="clientName"
+                                                            label="姓名"
+                                                            align="center"
+                                                    >
+                                                    </el-table-column>
+                                                    <el-table-column
+                                                            prop="vipName"
+                                                            label="会员类型"
+                                                            align="center"
+                                                    >
+                                                    </el-table-column>
+                                                    <el-table-column
+                                                            prop="clientBalance"
+                                                            label="余额"
+                                                            align="center"
+                                                    >
+                                                    </el-table-column>
+                                                    <el-table-column
+                                                            prop="clientBorrowNum"
+                                                            label="可借阅数量"
+                                                            align="center"
+                                                    >
+                                                    </el-table-column>
+                                                </el-table>
+                                            </td>
+                                        </tr>
+                                    </table>
                             </fieldset>
                         </td>
                         <td width="2%">&nbsp;</td>
                     </tr>
-
                     <!--空行-->
                     <tr>
                         <td height="40" colspan="3">
                         </td>
                     </tr>
-
                     <!--图书搜索条-->
                     <tr>
                         <td width="2%">&nbsp;</td>
-                        <td width="96%">
+                        <td width="98%">
                             <fieldset>
                                 <legend>查询图书</legend>
-                                <table width="100%" border="1" class="cont"  >
+                                <table width="100%" border="1" class="cont" >
                                     <tr>
-                                        <td colspan="8">
+                                        <td colspan="4">
+                                            <!--搜索表单-->
+                                            <el-form :inline="true" :model="book" class="demo-form-inline">
 
-                                            请输入:&nbsp;&nbsp;<input class="text" type="text" id="bookContent" name="bookContent" placeholder="输入书名"/>
-                                            <input type="button" id="btnQueryBook" value="确定" style="width: 80px;"/>
-                                            <input type="button" id="btnSubmit" value="完成借阅" style="width: 80px;"/>
+                                                <el-form-item label="图书ISBN">
+                                                    <el-input v-model="book.bookIsbn" placeholder="在此输入图书ISBN号"></el-input>
+                                                </el-form-item>
+
+                                                <el-form-item>
+                                                    <el-button type="primary" @click="onBookSubmit">确定</el-button>
+                                                </el-form-item>
+
+                                            </el-form>
                                         </td>
-
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <!--表格-->
+                                            <template>
+                                                <el-table
+                                                        :data="bookTableData"
+                                                        style="width: 100%"
+                                                >
+                                                    <el-table-column
+                                                            type="index"
+                                                            align="center"
+                                                            width="30"
+                                                    >
+                                                    </el-table-column>
 
+                                                    <el-table-column
+                                                            prop="bookIsbn"
+                                                            align="center"
+                                                            label="ISBN号"
+                                                    >
+                                                    </el-table-column>
+
+                                                    <el-table-column
+                                                            prop="bookName"
+                                                            label="图书名称"
+                                                            align="center"
+                                                    >
+                                                    </el-table-column>
+
+                                                    <el-table-column
+                                                            prop="bookAuthorId"
+                                                            align="center"
+                                                            label="作者"
+                                                    >
+                                                    </el-table-column>
+
+                                                    <el-table-column
+                                                            prop="publisherId"
+                                                            align="center"
+                                                            label="出版社"
+                                                    >
+                                                    </el-table-column>
+
+                                                    <el-table-column
+                                                            prop="bookPrice"
+                                                            align="center"
+                                                            label="借阅价格"
+                                                    >
+                                                    </el-table-column>
+
+                                                    <el-table-column
+                                                            prop="bookNowNum"
+                                                            align="center"
+                                                            label="可借数量"
+                                                    >
+                                                    </el-table-column>
+
+                                                    <el-table-column align="center" label="操作">
+                                                        <template slot-scope="scope">
+                                                            <el-row>
+                                                                <el-button type="danger" @click="cancelBook(scope.$index)">取消</el-button>
+                                                            </el-row>
+                                                        </template>
+                                                    </el-table-column>
+
+                                                </el-table>
+                                            </template>
+                                        </td>
+                                        <td width="2%">&nbsp;</td>
+                                    </tr>
                                 </table>
                             </fieldset>
                         </td>
                         <td width="2%">&nbsp;</td>
                     </tr>
-                    <tr><td height="20" colspan="3"></td></tr>
+                    <tr>
+                        <td height="20" colspan="4">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="2%">&nbsp;</td>
+                        <td>
+                            <template>
+                                <el-row :gutter="12">
+                                    <el-col :span="8">
+                                        <el-card shadow="never" > 借阅总金额：{{totalBalance}} （元）</el-card>
+                                    </el-col>
+                                    <el-col :span="8">
+                                        <el-card shadow="never" > 应还时间：{{dueDate}} </el-card>
+                                    </el-col>
+                                </el-row>
+                            </template>
+                        </td>
+                    </tr>
+                    <!--空行-->
+                    <tr>
+                        <td height="15" colspan="3">
+                        </td>
+                    </tr>
                     <tr>
                         <td width="2%">&nbsp;</td>
                         <td width="96%">
-                            <table width="100%">
-                                <tr>
-                                    <td colspan="2">
-                                        <form action="" method="">
-                                            <table width="100%"  class="cont tr_color" id="tdBook">
-                                                <tr>
-                                                    <th><input type="checkbox" id="ckAll" checked/>全选/全不选</th>
-                                                    <th>书籍名</th>
-                                                    <th>借阅时间</th>
-                                                    <th>应还时间</th>
-                                                    <th>出版社</th>
-                                                    <th>在店数量</th>
-                                                    <th>定价(元)</th>
-                                                </tr>
-
-
-                                            </table>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </table>
+                            <!--按钮-->
+                            <el-button type="success" @click="onBookBorrow">确认借阅</el-button>
                         </td>
                         <td width="2%">&nbsp;</td>
                     </tr>
@@ -173,6 +285,7 @@
             </td>
         </tr>
     </table>
+</div>
 </body>
 <script src="Js/vue.js"></script>
 <script src="element-ui/lib/index.js"></script>
@@ -186,24 +299,170 @@
         },
         methods: {
             selectClient() {
+                _this = this
                 axios({
                     method:"post",
                     url:"http://localhost/client/selectByClientPhone",
                     data:this.client.clientPhone
                 }).then(resp =>{
-                    this.client = resp.data;
+                    if (resp.data !== null) {
+                        this.clientTableData = undefined;
+                        this.clientTableData = [];
+                        this.clientTableData.push({
+                            clientId: resp.data.clientId,
+                            clientName: resp.data.clientName,
+                            vipName: resp.data.vipName,
+                            clientBalance: resp.data.clientBalance,
+                            clientBorrowNum: resp.data.clientLeftBorrowNum,
+                            vipRentDiscount: resp.data.vipRentDiscount,
+                            vipBorrowDate: resp.data.vipBorrowDate,
+                        });
+                        _this.$message({
+                            message: '查询成功！',
+                            type: 'success'
+                        });
+                    } else {
+                        this.clientTableData = undefined;
+                        this.clientTableData = [];
+                        _this.$message({
+                            message: '查无此人！',
+                            type: 'error'
+                        });
+                        this.totalBalance = 0;
+                    }
+                    _this.getDueDate();
                 })
             },
             // 查询方法
-            onSubmit() {
-                this.selectClient();
-
+            onBookSubmit() {
+                _this = this
+                if (!(/^\d+$/.test(this.book.bookIsbn))) {
+                    _this.$message({
+                        message: '查无此书！',
+                        type: 'error'
+                    });
+                    this.book.bookIsbn = '';
+                    return;
+                }
+                axios({
+                    method:"post",
+                    url:"http://localhost/book/selectByBookIsbn",
+                    data:this.book.bookIsbn
+                }).then(resp =>{
+                    if (resp.data !== null) {
+                        _this.bookTableData.push({
+                            bookId: resp.data.bookId,
+                            bookIsbn: resp.data.bookIsbn,
+                            bookName: resp.data.bookName,
+                            bookAuthorId: resp.data.authorName,
+                            publisherId: resp.data.publisherName,
+                            bookPrice: resp.data.bookPrice,
+                            bookNowNum: resp.data.bookLeftNum,
+                        });
+                        _this.$message({
+                            message: '查询成功！',
+                            type: 'success'
+                        });
+                        _this.getTotalBalance();
+                    } else {
+                        this.book.bookIsbn = '';
+                        _this.$message({
+                            message: '查无此书！',
+                            type: 'error'
+                        });
+                    }
+                })
             },
+            cancelBook(id) {
+                // alert(id)
+                this.bookTableData.splice(id,1);
+                this.getTotalBalance();
+            },
+            onBookBorrow() {
+                if (this.bookTableData.length === 0 || this.clientTableData === 0) {
+                    this.$message({
+                        message: '请补全信息！',
+                        type: 'error'
+                    });
+                    return;
+                }
+                if (this.totalBalance > this.clientTableData[0].clientBalance) {
+                    this.$message({
+                        message: '余额不足！',
+                        type: 'error'
+                    });
+                    return;
+                }
+                _this = this;
+                temp = [];
+                for (var i = 0; i < _this.bookTableData.length; i++) {
+                    temp.push(_this.bookTableData[i].bookId);
+                }
+                if (temp.length > this.clientTableData[0].clientBorrowNum) {
+                    this.$message({
+                        message: '超出借阅上限！',
+                        type: 'error'
+                    });
+                    return;
+                }
+                axios({
+                    method:"post",
+                    url:"http://localhost/borrow/insertByBookIds",
+                    data: {
+                        clientId: _this.clientTableData[0].clientId,
+                        bookIds: temp,
+                        dueDate: _this.dueDateNum,
+                    }
+                }).then(resp =>{
+                    if (resp.data === "success") {
+                        _this.bookTableData = undefined;
+                        _this.bookTableData = [];
+                        _this.clientTableData = undefined;
+                        _this.clientTableData = [];
+                        _this.client.clientPhone = '';
+                        _this.book.bookIsbn = '';
+                        _this.$message({
+                            message: '借阅成功！',
+                            type: 'success'
+                        });
+                    } else {
+                        _this.$message({
+                            message: '借阅失败！',
+                            type: 'error'
+                        });
+                    }
+                })
+            },
+            getTotalBalance() {
+                if (this.bookTableData.length === 0 || this.clientTableData === 0) {
+                    this.totalBalance = 0;
+                    return;
+                }
+                var discount = this.clientTableData[0].vipRentDiscount;
+                // alert(discount);
+                var total = 0;
+                for (var i = 0; i < this.bookTableData.length; i++) {
+                    total += this.bookTableData[i].bookPrice;
+                }
+                total *= discount;
+                this.totalBalance = total.toFixed(2);
+            },
+            getDueDate() {
+                if (this.clientTableData.length === 0) {
+                    this.dueDate = '';
+                    return;
+                }
+                let now = new Date();
+                now.setDate(now.getDate() + this.clientTableData[0].vipBorrowDate);
+                this.dueDate = now.toDateString();
+                this.dueDateNum = now.getTime();
+            }
         },
         data() {
             return {
                 // 客户模型数据
                 client: {
+                    clientId: 0,
                     clientName: '',
                     clientPhone: '',
                     clientSex: '',
@@ -212,6 +471,18 @@
                     clientBorrowNum: 0,
                     status: ''
                 },
+                book: {
+                    bookIsbn: '',
+                },
+                clientTableData: [
+
+                ],
+                bookTableData: [
+
+                ],
+                totalBalance: 0,
+                dueDate: '',
+                dueDateString: '',
             }
         }
     })

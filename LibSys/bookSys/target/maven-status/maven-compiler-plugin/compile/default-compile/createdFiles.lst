@@ -1,8 +1,14 @@
+cn\edu\hfut\service\impl\BookServiceImpl.class
+cn\edu\hfut\service\impl\BorrowServiceImpl.class
+cn\edu\hfut\service\BookService.class
+cn\edu\hfut\web\servlet\BorrowServlet.class
+cn\edu\hfut\web\servlet\VipServlet.class
+cn\edu\hfut\web\servlet\BookServlet.class
 cn\edu\hfut\service\ClientService.class
 cn\edu\hfut\service\impl\VipServiceImpl.class
 cn\edu\hfut\web\servlet\BaseServlet.class
 cn\edu\hfut\web\servlet\ClientServlet.class
 cn\edu\hfut\util\SqlSessionFactoryUtils.class
-cn\edu\hfut\web\servlet\VipServlet.class
 cn\edu\hfut\service\VipService.class
+cn\edu\hfut\service\BorrowService.class
 cn\edu\hfut\service\impl\ClientServiceImpl.class
