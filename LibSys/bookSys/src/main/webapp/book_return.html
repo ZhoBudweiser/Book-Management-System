@@ -37,7 +37,7 @@
                                         <template>
                                             <el-breadcrumb separator=">">
                                                 <el-breadcrumb-item>常用功能</el-breadcrumb-item>
-                                                <el-breadcrumb-item>图书借阅</el-breadcrumb-item>
+                                                <el-breadcrumb-item>图书归还</el-breadcrumb-item>
                                             </el-breadcrumb>
                                         </template>
                                     </td>
@@ -124,24 +124,8 @@
                         <td width="2%">&nbsp;</td>
                         <td width="98%">
                             <fieldset>
-                                <legend>查询图书</legend>
+                                <legend>已借图书</legend>
                                 <table width="100%" border="1" class="cont" >
-                                    <tr>
-                                        <td colspan="4">
-                                            <!--搜索表单-->
-                                            <el-form :inline="true" :model="book" class="demo-form-inline">
-
-                                                <el-form-item label="图书ISBN">
-                                                    <el-input v-model="book.bookIsbn" placeholder="在此输入图书ISBN号"></el-input>
-                                                </el-form-item>
-
-                                                <el-form-item>
-                                                    <el-button type="primary" @click="onBookSubmit">确定</el-button>
-                                                </el-form-item>
-
-                                            </el-form>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td>
                                             <!--表格-->
@@ -171,33 +155,33 @@
                                                     >
                                                     </el-table-column>
 
-                                                    <el-table-column
-                                                            prop="bookAuthorId"
-                                                            align="center"
-                                                            label="作者"
-                                                    >
-                                                    </el-table-column>
+<!--                                                    <el-table-column-->
+<!--                                                            prop="bookAuthorId"-->
+<!--                                                            align="center"-->
+<!--                                                            label="作者"-->
+<!--                                                    >-->
+<!--                                                    </el-table-column>-->
 
-                                                    <el-table-column
-                                                            prop="publisherId"
-                                                            align="center"
-                                                            label="出版社"
-                                                    >
+<!--                                                    <el-table-column-->
+<!--                                                            prop="publisherId"-->
+<!--                                                            align="center"-->
+<!--                                                            label="出版社"-->
+<!--                                                    >-->
                                                     </el-table-column>
 
                                                     <el-table-column
                                                             prop="bookPrice"
                                                             align="center"
-                                                            label="借阅价格"
+                                                            label="图书价格"
                                                     >
                                                     </el-table-column>
 
-                                                    <el-table-column
-                                                            prop="bookNowNum"
-                                                            align="center"
-                                                            label="可借数量"
-                                                    >
-                                                    </el-table-column>
+<!--                                                    <el-table-column-->
+<!--                                                            prop="expiryDate"-->
+<!--                                                            align="center"-->
+<!--                                                            label="到期时间"-->
+<!--                                                    >-->
+<!--                                                    </el-table-column>-->
 
                                                     <el-table-column align="center" label="操作">
                                                         <template slot-scope="scope">
@@ -229,9 +213,6 @@
                                     <el-col :span="8">
                                         <el-card shadow="never" > 借阅总金额：{{totalBalance}} （元）</el-card>
                                     </el-col>
-                                    <el-col :span="8">
-                                        <el-card shadow="never" > 应还时间：{{dueDate}} </el-card>
-                                    </el-col>
                                 </el-row>
                             </template>
                         </td>
@@ -245,7 +226,7 @@
                         <td width="2%">&nbsp;</td>
                         <td width="96%">
                             <!--按钮-->
-                            <el-button type="success" @click="onBookBorrow">确认借阅</el-button>
+                            <el-button type="success" @click="onBookReturn">确认归还</el-button>
                         </td>
                         <td width="2%">&nbsp;</td>
                     </tr>
@@ -326,46 +307,29 @@
                         });
                         this.totalBalance = 0;
                     }
-                    _this.getDueDate();
+                    _this.selectBooks();
+                    _this.getDate();
                 })
             },
-            // 查询方法
-            onBookSubmit() {
+            selectBooks() {
                 _this = this
-                if (!(/^\d+$/.test(this.book.bookIsbn))) {
-                    _this.$message({
-                        message: '查无此书！',
-                        type: 'error'
-                    });
-                    this.book.bookIsbn = '';
-                    return;
-                }
                 axios({
                     method:"post",
-                    url:"http://localhost/book/selectByBookIsbn",
-                    data:this.book.bookIsbn
+                    url:"http://localhost/borrow/getBorrowBooks",
+                    data:this.client.clientPhone
                 }).then(resp =>{
                     if (resp.data !== null) {
-                        _this.bookTableData.push({
-                            bookId: resp.data.bookId,
-                            bookIsbn: resp.data.bookIsbn,
-                            bookName: resp.data.bookName,
-                            bookAuthorId: resp.data.authorName,
-                            publisherId: resp.data.publisherName,
-                            bookPrice: resp.data.bookPrice,
-                            bookNowNum: resp.data.bookLeftNum,
-                        });
-                        _this.$message({
-                            message: '查询成功！',
-                            type: 'success'
-                        });
-                        _this.getTotalBalance();
+                        this.bookTableData = undefined;
+                        this.bookTableData = [];
+                        this.bookTableData = resp.data;
                     } else {
-                        this.book.bookIsbn = '';
+                        this.bookTableData = undefined;
+                        this.bookTableData = [];
                         _this.$message({
-                            message: '查无此书！',
+                            message: '无借书记录！',
                             type: 'error'
                         });
+                        this.totalBalance = 0;
                     }
                 })
             },
@@ -374,7 +338,7 @@
                 this.bookTableData.splice(id,1);
                 this.getTotalBalance();
             },
-            onBookBorrow() {
+            onBookReturn() {
                 if (this.bookTableData.length === 0 || this.clientTableData === 0) {
                     this.$message({
                         message: '请补全信息！',
@@ -391,23 +355,19 @@
                 }
                 _this = this;
                 temp = [];
+                dateTemp = [];
                 for (var i = 0; i < _this.bookTableData.length; i++) {
                     temp.push(_this.bookTableData[i].bookId);
-                }
-                if (temp.length > this.clientTableData[0].clientBorrowNum) {
-                    this.$message({
-                        message: '超出借阅上限！',
-                        type: 'error'
-                    });
-                    return;
+                    dateTemp.push(_this.bookTableData[i].borrowDate);
                 }
                 axios({
                     method:"post",
-                    url:"http://localhost/borrow/insertByBookIds",
+                    url:"http://localhost/borrow/returnByBookIds",
                     data: {
                         clientId: _this.clientTableData[0].clientId,
                         bookIds: temp,
-                        dueDate: _this.dueDateNum,
+                        borrowDates: dateTemp,
+                        date: _this.dateNum,
                     }
                 }).then(resp =>{
                     if (resp.data === "success") {
@@ -416,14 +376,13 @@
                         _this.clientTableData = undefined;
                         _this.clientTableData = [];
                         _this.client.clientPhone = '';
-                        _this.book.bookIsbn = '';
                         _this.$message({
-                            message: '借阅成功！',
+                            message: '归还成功！',
                             type: 'success'
                         });
                     } else {
                         _this.$message({
-                            message: '借阅失败！',
+                            message: '归还失败！',
                             type: 'error'
                         });
                     }
@@ -437,21 +396,18 @@
                 var discount = this.clientTableData[0].vipRentDiscount;
                 // alert(discount);
                 var total = 0;
+                let now = new Date();
                 for (var i = 0; i < this.bookTableData.length; i++) {
-                    total += this.bookTableData[i].bookPrice;
+                    if (Date(this.bookTableData[i].expiryDate) < now.getDate()) {
+                        total += this.bookTableData[i].bookPrice;
+                    }
                 }
                 total *= discount;
                 this.totalBalance = total.toFixed(2);
             },
-            getDueDate() {
-                if (this.clientTableData.length === 0) {
-                    this.dueDate = '';
-                    return;
-                }
+            getDate() {
                 let now = new Date();
-                now.setDate(now.getDate() + this.clientTableData[0].vipBorrowDate);
-                this.dueDate = now.toDateString();
-                this.dueDateNum = now.getTime();
+                this.dateNum = now.getTime();
             }
         },
         data() {
@@ -477,8 +433,7 @@
 
                 ],
                 totalBalance: 0,
-                dueDate: '',
-                dueDateString: '',
+                dateNum: '',
             }
         }
     })
