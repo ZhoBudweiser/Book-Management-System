@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.PublisherMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Publisher">
+    <constructor>
+      <idArg column="publisher_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="publisher_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="publisher_phone" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="publisher_location" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="publisher_introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    publisher_id, publisher_name, publisher_phone, publisher_location, publisher_introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from publisher
+    where publisher_id = #{publisherId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from publisher
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  delete from publisher
+  where publisher_id = #{publisherId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Publisher">
+    insert into publisher (publisher_id, publisher_name, publisher_phone, 
+      publisher_location, publisher_introduction
+      )
+    values (#{publisherId,jdbcType=BIGINT}, #{publisherName,jdbcType=VARCHAR}, #{publisherPhone,jdbcType=CHAR}, 
+      #{publisherLocation,jdbcType=VARCHAR}, #{publisherIntroduction,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Publisher">
+    insert into publisher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="publisherId != null">
+        publisher_id,
+      </if>
+      <if test="publisherName != null">
+        publisher_name,
+      </if>
+      <if test="publisherPhone != null">
+        publisher_phone,
+      </if>
+      <if test="publisherLocation != null">
+        publisher_location,
+      </if>
+      <if test="publisherIntroduction != null">
+        publisher_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="publisherId != null">
+        #{publisherId,jdbcType=BIGINT},
+      </if>
+      <if test="publisherName != null">
+        #{publisherName,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherPhone != null">
+        #{publisherPhone,jdbcType=CHAR},
+      </if>
+      <if test="publisherLocation != null">
+        #{publisherLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherIntroduction != null">
+        #{publisherIntroduction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Publisher">
+    update publisher
+    <set>
+      <if test="publisherName != null">
+        publisher_name = #{publisherName,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherPhone != null">
+        publisher_phone = #{publisherPhone,jdbcType=CHAR},
+      </if>
+      <if test="publisherLocation != null">
+        publisher_location = #{publisherLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherIntroduction != null">
+        publisher_introduction = #{publisherIntroduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where publisher_id = #{publisherId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Publisher">
+    update publisher
+    set publisher_name = #{publisherName,jdbcType=VARCHAR},
+      publisher_phone = #{publisherPhone,jdbcType=CHAR},
+      publisher_location = #{publisherLocation,jdbcType=VARCHAR},
+      publisher_introduction = #{publisherIntroduction,jdbcType=VARCHAR}
+    where publisher_id = #{publisherId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.ClientMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Client">
+    <constructor>
+      <idArg column="client_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="client_phone" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="client_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="client_sex" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="vip_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="client_balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="client_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="client_borrow_num" javaType="java.lang.Short" jdbcType="SMALLINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    client_id, client_phone, client_name, client_sex, vip_id, client_balance, client_status, 
+    client_borrow_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from client
+    where client_id = #{clientId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from client
+  </select>
+  <select id="selectByClientPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from client
+    where client_phone = #{clientPhone,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from client
+    where client_id = #{clientId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Client">
+    insert into client (client_phone, client_name,
+      client_sex, vip_id, client_balance, 
+      client_status, client_borrow_num)
+    values (#{clientPhone,jdbcType=CHAR}, #{clientName,jdbcType=VARCHAR},
+      #{clientSex,jdbcType=CHAR}, #{vipId,jdbcType=BIGINT}, #{clientBalance,jdbcType=DECIMAL}, 
+      #{clientStatus,jdbcType=CHAR}, #{clientBorrowNum,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Client">
+    insert into client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="clientPhone != null">
+        client_phone,
+      </if>
+      <if test="clientName != null">
+        client_name,
+      </if>
+      <if test="clientSex != null">
+        client_sex,
+      </if>
+      <if test="vipId != null">
+        vip_id,
+      </if>
+      <if test="clientBalance != null">
+        client_balance,
+      </if>
+      <if test="clientStatus != null">
+        client_status,
+      </if>
+      <if test="clientBorrowNum != null">
+        client_borrow_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="clientPhone != null">
+        #{clientPhone,jdbcType=CHAR},
+      </if>
+      <if test="clientName != null">
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSex != null">
+        #{clientSex,jdbcType=CHAR},
+      </if>
+      <if test="vipId != null">
+        #{vipId,jdbcType=BIGINT},
+      </if>
+      <if test="clientBalance != null">
+        #{clientBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="clientStatus != null">
+        #{clientStatus,jdbcType=CHAR},
+      </if>
+      <if test="clientBorrowNum != null">
+        #{clientBorrowNum,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Client">
+    update client
+    <set>
+      <if test="clientPhone != null">
+        client_phone = #{clientPhone,jdbcType=CHAR},
+      </if>
+      <if test="clientName != null">
+        client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSex != null">
+        client_sex = #{clientSex,jdbcType=CHAR},
+      </if>
+      <if test="vipId != null">
+        vip_id = #{vipId,jdbcType=BIGINT},
+      </if>
+      <if test="clientBalance != null">
+        client_balance = #{clientBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="clientStatus != null">
+        client_status = #{clientStatus,jdbcType=CHAR},
+      </if>
+      <if test="clientBorrowNum != null">
+        client_borrow_num = #{clientBorrowNum,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where client_id = #{clientId,jdbcType=BIGINT};
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Client">
+    update client
+    set client_phone = #{clientPhone,jdbcType=CHAR},
+      client_name = #{clientName,jdbcType=VARCHAR},
+      client_sex = #{clientSex,jdbcType=CHAR},
+      vip_id = #{vipId,jdbcType=BIGINT},
+      client_balance = #{clientBalance,jdbcType=DECIMAL},
+      client_status = #{clientStatus,jdbcType=CHAR},
+      client_borrow_num = #{clientBorrowNum,jdbcType=SMALLINT}
+    where client_id = #{clientId,jdbcType=BIGINT}
+  </update>
+  <update id="updateLogoutByPrimaryKey" parameterType="java.lang.Long">
+    update client
+    set client_status = '注销'
+    where client_id = #{clientId,jdbcType=BIGINT}
+  </update>
+  <update id="updateActivateByPrimaryKey" parameterType="java.lang.Long">
+    update client
+    set client_status = '正常'
+    where client_id = #{clientId,jdbcType=BIGINT}
+  </update>
+</mapper>

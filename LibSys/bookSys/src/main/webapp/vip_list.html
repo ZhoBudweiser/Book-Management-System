@@ -210,12 +210,12 @@
                                             >
                                             </el-table-column>
 
-                                            <el-table-column
-                                                    prop="vipSellDiscount"
-                                                    align="center"
-                                                    label="销售额度"
-                                            >
-                                            </el-table-column>
+<!--                                            <el-table-column-->
+<!--                                                    prop="vipSellDiscount"-->
+<!--                                                    align="center"-->
+<!--                                                    label="销售额度"-->
+<!--                                            >-->
+<!--                                            </el-table-column>-->
 
                                             <el-table-column
                                                     prop="vipBorrowNum"
@@ -412,6 +412,11 @@
                             _this.$message({
                                 message: '会员删除成功！',
                                 type: 'success'
+                            });
+                        } else {
+                            _this.$message({
+                                message: '含有子信息，会员删除失败！',
+                                type: 'error'
                             });
                         }
                     })

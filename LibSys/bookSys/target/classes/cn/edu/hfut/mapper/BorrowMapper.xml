@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.BorrowMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Borrow">
+    <constructor>
+      <idArg column="client_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <idArg column="book_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <idArg column="borrow_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="expiry_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="renew_num" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="borrow_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="return_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="deduction_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="deduction_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    client_id, book_id, borrow_date, expiry_date, renew_num, borrow_status, return_date, 
+    deduction_type, deduction_amount
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="cn.edu.hfut.model.BorrowKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from borrow
+    where client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+      and borrow_date = #{borrowDate,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.edu.hfut.model.BorrowKey">
+    delete from borrow
+    where client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+      and borrow_date = #{borrowDate,jdbcType=TIMESTAMP}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Borrow">
+    insert into borrow (client_id, book_id, borrow_date, 
+      expiry_date, renew_num, borrow_status, 
+      return_date, deduction_type, deduction_amount
+      )
+    values (#{clientId,jdbcType=BIGINT}, #{bookId,jdbcType=BIGINT}, #{borrowDate,jdbcType=TIMESTAMP}, 
+      #{expiryDate,jdbcType=TIMESTAMP}, #{renewNum,jdbcType=SMALLINT}, #{borrowStatus,jdbcType=CHAR}, 
+      #{returnDate,jdbcType=TIMESTAMP}, #{deductionType,jdbcType=VARCHAR}, #{deductionAmount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Borrow">
+    insert into borrow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="borrowDate != null">
+        borrow_date,
+      </if>
+      <if test="expiryDate != null">
+        expiry_date,
+      </if>
+      <if test="renewNum != null">
+        renew_num,
+      </if>
+      <if test="borrowStatus != null">
+        borrow_status,
+      </if>
+      <if test="returnDate != null">
+        return_date,
+      </if>
+      <if test="deductionType != null">
+        deduction_type,
+      </if>
+      <if test="deductionAmount != null">
+        deduction_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=BIGINT},
+      </if>
+      <if test="borrowDate != null">
+        #{borrowDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="renewNum != null">
+        #{renewNum,jdbcType=SMALLINT},
+      </if>
+      <if test="borrowStatus != null">
+        #{borrowStatus,jdbcType=CHAR},
+      </if>
+      <if test="returnDate != null">
+        #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deductionType != null">
+        #{deductionType,jdbcType=VARCHAR},
+      </if>
+      <if test="deductionAmount != null">
+        #{deductionAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Borrow">
+    update borrow
+    <set>
+      <if test="expiryDate != null">
+        expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="renewNum != null">
+        renew_num = #{renewNum,jdbcType=SMALLINT},
+      </if>
+      <if test="borrowStatus != null">
+        borrow_status = #{borrowStatus,jdbcType=CHAR},
+      </if>
+      <if test="returnDate != null">
+        return_date = #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deductionType != null">
+        deduction_type = #{deductionType,jdbcType=VARCHAR},
+      </if>
+      <if test="deductionAmount != null">
+        deduction_amount = #{deductionAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+      and borrow_date = #{borrowDate,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Borrow">
+    update borrow
+    set expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+      renew_num = #{renewNum,jdbcType=SMALLINT},
+      borrow_status = #{borrowStatus,jdbcType=CHAR},
+      return_date = #{returnDate,jdbcType=TIMESTAMP},
+      deduction_type = #{deductionType,jdbcType=VARCHAR},
+      deduction_amount = #{deductionAmount,jdbcType=DECIMAL}
+    where client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+      and borrow_date = #{borrowDate,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

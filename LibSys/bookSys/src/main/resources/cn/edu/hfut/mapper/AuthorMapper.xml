@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.AuthorMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Author">
+    <constructor>
+      <idArg column="author_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="author_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="author_sex" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="author_location" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="author_introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    author_id, author_name, author_sex, author_location, author_introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from author
+    where author_id = #{authorId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from author
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  delete from author
+  where author_id = #{authorId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Author">
+    insert into author (author_id, author_name, author_sex, 
+      author_location, author_introduction)
+    values (#{authorId,jdbcType=BIGINT}, #{authorName,jdbcType=VARCHAR}, #{authorSex,jdbcType=CHAR}, 
+      #{authorLocation,jdbcType=VARCHAR}, #{authorIntroduction,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Author">
+    insert into author
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authorId != null">
+        author_id,
+      </if>
+      <if test="authorName != null">
+        author_name,
+      </if>
+      <if test="authorSex != null">
+        author_sex,
+      </if>
+      <if test="authorLocation != null">
+        author_location,
+      </if>
+      <if test="authorIntroduction != null">
+        author_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authorId != null">
+        #{authorId,jdbcType=BIGINT},
+      </if>
+      <if test="authorName != null">
+        #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorSex != null">
+        #{authorSex,jdbcType=CHAR},
+      </if>
+      <if test="authorLocation != null">
+        #{authorLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="authorIntroduction != null">
+        #{authorIntroduction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Author">
+    update author
+    <set>
+      <if test="authorName != null">
+        author_name = #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorSex != null">
+        author_sex = #{authorSex,jdbcType=CHAR},
+      </if>
+      <if test="authorLocation != null">
+        author_location = #{authorLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="authorIntroduction != null">
+        author_introduction = #{authorIntroduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where author_id = #{authorId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Author">
+    update author
+    set author_name = #{authorName,jdbcType=VARCHAR},
+      author_sex = #{authorSex,jdbcType=CHAR},
+      author_location = #{authorLocation,jdbcType=VARCHAR},
+      author_introduction = #{authorIntroduction,jdbcType=VARCHAR}
+    where author_id = #{authorId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.ViewMapper">
+  <resultMap id="VBorrowClientResultMap" type="cn.edu.hfut.model.VBorrowClient">
+    <result column="client_id" jdbcType="BIGINT" property="clientId" />
+    <result column="client_phone" jdbcType="VARCHAR" property="clientPhone" />
+    <result column="client_name" jdbcType="VARCHAR" property="clientName" />
+    <result column="vip_id" jdbcType="BIGINT" property="vipId" />
+    <result column="client_balance" jdbcType="DOUBLE" property="clientBalance" />
+    <result column="client_status" jdbcType="VARCHAR" property="clientStatus" />
+    <result column="client_borrow_num" jdbcType="BIGINT" property="clientBorrowNum" />
+    <result column="vip_name" jdbcType="VARCHAR" property="vipName" />
+    <result column="client_left_borrow_num" jdbcType="BIGINT" property="clientLeftBorrowNum" />
+    <result column="vip_borrow_date" jdbcType="BIGINT" property="vipBorrowDate" />
+    <result column="vip_rent_discount" jdbcType="DOUBLE" property="vipRentDiscount" />
+  </resultMap>
+  <resultMap id="VBorrowBookResultMap" type="cn.edu.hfut.model.VBorrowBook">
+    <result column="book_id" jdbcType="BIGINT" property="bookId" />
+    <result column="book_isbn" jdbcType="VARCHAR" property="bookIsbn" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="publisher_id" jdbcType="BIGINT" property="publisherId" />
+    <result column="book_price" jdbcType="DOUBLE" property="bookPrice" />
+    <result column="book_total_num" jdbcType="BIGINT" property="bookTotalNum" />
+    <result column="book_left_num" jdbcType="BIGINT" property="bookLeftNum" />
+    <result column="book_reserve_num" jdbcType="BIGINT" property="bookReserveNum" />
+    <result column="book_author_id" jdbcType="BIGINT" property="bookAuthorId" />
+    <result column="book_introduction" jdbcType="VARCHAR" property="bookIntroduction" />
+    <result column="book_type_id" jdbcType="BIGINT" property="bookTypeId" />
+    <result column="publisher_name" jdbcType="VARCHAR" property="publisherName" />
+    <result column="author_name" jdbcType="VARCHAR" property="authorName" />
+  </resultMap>
+  <resultMap id="VReturnResultMap" type="cn.edu.hfut.model.VReturn">
+    <result column="borrow_date" jdbcType="TIMESTAMP" property="borrowDate" />
+    <result column="expiry_date" jdbcType="TIMESTAMP" property="expiryDate" />
+    <result column="renew_num" jdbcType="BIGINT" property="renewNum" />
+    <result column="borrow_status" jdbcType="VARCHAR" property="borrowStatus" />
+    <result column="return_date" jdbcType="TIMESTAMP" property="returnDate" />
+    <result column="deduction_type" jdbcType="VARCHAR" property="deductionType" />
+    <result column="deduction_amount" jdbcType="DOUBLE" property="deductionAmount" />
+    <result column="book_id" jdbcType="BIGINT" property="bookId" />
+    <result column="book_isbn" jdbcType="VARCHAR" property="bookIsbn" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="book_price" jdbcType="DOUBLE" property="bookPrice" />
+    <result column="client_id" jdbcType="BIGINT" property="clientId" />
+  </resultMap>
+  <sql id="VBorrowClient_Base_Column_List">
+    client_id, client_phone, client_name, vip_id, client_balance, client_status,
+    client_borrow_num, vip_name, client_left_borrow_num, vip_borrow_date, vip_rent_discount
+  </sql>
+  <sql id="VBorrowBook_Base_Column_List">
+    book_id, book_isbn, book_name, publisher_id, book_price, book_total_num, book_left_num,
+    book_reserve_num, book_author_id, book_introduction, book_type_id, publisher_name, author_name
+  </sql>
+  <sql id="VReturn_Base_Column_List">
+    client_id, borrow_date, expiry_date, renew_num, borrow_status, book_isbn,
+    return_date, book_name, deduction_type, book_price, deduction_amount, client_phone, book_id
+  </sql>
+  <select id="selectByClientPhone" parameterType="java.lang.String" resultMap="VBorrowClientResultMap">
+    select
+    <include refid="VBorrowClient_Base_Column_List" />
+    from v_borrow_client
+    where client_phone = #{clientPhone,jdbcType=BIGINT}
+  </select>
+  <select id="selectByBookIsbn" parameterType="java.lang.String" resultMap="VBorrowBookResultMap">
+    select
+    <include refid="VBorrowBook_Base_Column_List" />
+    from v_borrow_book
+    where book_isbn = #{bookIsbn,jdbcType=CHAR}
+  </select>
+  <select id="selectBooksByClientPhone" parameterType="java.lang.String" resultMap="VReturnResultMap">
+    select
+    <include refid="VReturn_Base_Column_List" />
+    from v_return
+    where client_phone = #{clientPhone,jdbcType=BIGINT} and borrow_status = '在借'
+  </select>
+</mapper>

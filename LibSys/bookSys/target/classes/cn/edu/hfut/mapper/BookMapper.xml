@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.BookMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Book">
+    <constructor>
+      <idArg column="book_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="book_isbn" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="book_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="publisher_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="book_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="book_total_num" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="book_now_num" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="book_reserve_num" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="book_author_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="book_introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="book_type_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    book_id, book_isbn, book_name, publisher_id, book_price, book_total_num, book_now_num, 
+    book_reserve_num, book_author_id, book_introduction, book_type_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where book_id = #{bookId,jdbcType=BIGINT}
+  </select>
+    <select id="selectByBookIsbn" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from book
+      where book_isbn = #{bookIsbn,jdbcType=CHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from book
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from book
+    where book_id = #{bookId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Book">
+    insert into book (book_isbn, book_name,
+      publisher_id, book_price, book_total_num, 
+      book_now_num, book_reserve_num, book_author_id, 
+      book_introduction, book_type_id)
+    values (#{bookIsbn,jdbcType=CHAR}, #{bookName,jdbcType=VARCHAR},
+      #{publisherId,jdbcType=BIGINT}, #{bookPrice,jdbcType=DECIMAL}, #{bookTotalNum,jdbcType=SMALLINT}, 
+      #{bookNowNum,jdbcType=SMALLINT}, #{bookReserveNum,jdbcType=SMALLINT}, #{bookAuthorId,jdbcType=BIGINT}, 
+      #{bookIntroduction,jdbcType=VARCHAR}, #{bookTypeId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Book">
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="bookIsbn != null">
+        book_isbn,
+      </if>
+      <if test="bookName != null">
+        book_name,
+      </if>
+      <if test="publisherId != null">
+        publisher_id,
+      </if>
+      <if test="bookPrice != null">
+        book_price,
+      </if>
+      <if test="bookTotalNum != null">
+        book_total_num,
+      </if>
+      <if test="bookNowNum != null">
+        book_now_num,
+      </if>
+      <if test="bookReserveNum != null">
+        book_reserve_num,
+      </if>
+      <if test="bookAuthorId != null">
+        book_author_id,
+      </if>
+      <if test="bookIntroduction != null">
+        book_introduction,
+      </if>
+      <if test="bookTypeId != null">
+        book_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookId != null">
+        #{bookId,jdbcType=BIGINT},
+      </if>
+      <if test="bookIsbn != null">
+        #{bookIsbn,jdbcType=CHAR},
+      </if>
+      <if test="bookName != null">
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherId != null">
+        #{publisherId,jdbcType=BIGINT},
+      </if>
+      <if test="bookPrice != null">
+        #{bookPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bookTotalNum != null">
+        #{bookTotalNum,jdbcType=SMALLINT},
+      </if>
+      <if test="bookNowNum != null">
+        #{bookNowNum,jdbcType=SMALLINT},
+      </if>
+      <if test="bookReserveNum != null">
+        #{bookReserveNum,jdbcType=SMALLINT},
+      </if>
+      <if test="bookAuthorId != null">
+        #{bookAuthorId,jdbcType=BIGINT},
+      </if>
+      <if test="bookIntroduction != null">
+        #{bookIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="bookTypeId != null">
+        #{bookTypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Book">
+    update book
+    <set>
+      <if test="bookIsbn != null">
+        book_isbn = #{bookIsbn,jdbcType=CHAR},
+      </if>
+      <if test="bookName != null">
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherId != null">
+        publisher_id = #{publisherId,jdbcType=BIGINT},
+      </if>
+      <if test="bookPrice != null">
+        book_price = #{bookPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bookTotalNum != null">
+        book_total_num = #{bookTotalNum,jdbcType=SMALLINT},
+      </if>
+      <if test="bookNowNum != null">
+        book_now_num = #{bookNowNum,jdbcType=SMALLINT},
+      </if>
+      <if test="bookReserveNum != null">
+        book_reserve_num = #{bookReserveNum,jdbcType=SMALLINT},
+      </if>
+      <if test="bookAuthorId != null">
+        book_author_id = #{bookAuthorId,jdbcType=BIGINT},
+      </if>
+      <if test="bookIntroduction != null">
+        book_introduction = #{bookIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="bookTypeId != null">
+        book_type_id = #{bookTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where book_id = #{bookId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Book">
+    update book
+    set book_isbn = #{bookIsbn,jdbcType=CHAR},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      publisher_id = #{publisherId,jdbcType=BIGINT},
+      book_price = #{bookPrice,jdbcType=DECIMAL},
+      book_total_num = #{bookTotalNum,jdbcType=SMALLINT},
+      book_now_num = #{bookNowNum,jdbcType=SMALLINT},
+      book_reserve_num = #{bookReserveNum,jdbcType=SMALLINT},
+      book_author_id = #{bookAuthorId,jdbcType=BIGINT},
+      book_introduction = #{bookIntroduction,jdbcType=VARCHAR},
+      book_type_id = #{bookTypeId,jdbcType=BIGINT}
+    where book_id = #{bookId,jdbcType=BIGINT}
+  </update>
+</mapper>

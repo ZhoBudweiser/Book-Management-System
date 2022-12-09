@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.TypeMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Type">
+    <constructor>
+      <idArg column="type_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="type_class" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type_category" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    type_id, type_class, type_category
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from type
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from type
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  delete from type
+  where type_id = #{typeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Type">
+    insert into type (type_id, type_class, type_category
+      )
+    values (#{typeId,jdbcType=BIGINT}, #{typeClass,jdbcType=VARCHAR}, #{typeCategory,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Type">
+    insert into type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="typeClass != null">
+        type_class,
+      </if>
+      <if test="typeCategory != null">
+        type_category,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeClass != null">
+        #{typeClass,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCategory != null">
+        #{typeCategory,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Type">
+    update type
+    <set>
+      <if test="typeClass != null">
+        type_class = #{typeClass,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCategory != null">
+        type_category = #{typeCategory,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Type">
+    update type
+    set type_class = #{typeClass,jdbcType=VARCHAR},
+      type_category = #{typeCategory,jdbcType=VARCHAR}
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+</mapper>

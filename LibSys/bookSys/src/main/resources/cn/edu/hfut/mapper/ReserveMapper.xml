@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.ReserveMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Reserve">
+    <constructor>
+      <idArg column="reserve_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <idArg column="client_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <idArg column="book_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="reserve_expriy_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    reserve_date, client_id, book_id, reserve_expriy_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="cn.edu.hfut.model.ReserveKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reserve
+    where reserve_date = #{reserveDate,jdbcType=TIMESTAMP}
+      and client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.edu.hfut.model.ReserveKey">
+    delete from reserve
+    where reserve_date = #{reserveDate,jdbcType=TIMESTAMP}
+      and client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Reserve">
+    insert into reserve (reserve_date, client_id, book_id, 
+      reserve_expriy_date)
+    values (#{reserveDate,jdbcType=TIMESTAMP}, #{clientId,jdbcType=BIGINT}, #{bookId,jdbcType=BIGINT}, 
+      #{reserveExpriyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Reserve">
+    insert into reserve
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reserveDate != null">
+        reserve_date,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="reserveExpriyDate != null">
+        reserve_expriy_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reserveDate != null">
+        #{reserveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=BIGINT},
+      </if>
+      <if test="reserveExpriyDate != null">
+        #{reserveExpriyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Reserve">
+    update reserve
+    <set>
+      <if test="reserveExpriyDate != null">
+        reserve_expriy_date = #{reserveExpriyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where reserve_date = #{reserveDate,jdbcType=TIMESTAMP}
+      and client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Reserve">
+    update reserve
+    set reserve_expriy_date = #{reserveExpriyDate,jdbcType=TIMESTAMP}
+    where reserve_date = #{reserveDate,jdbcType=TIMESTAMP}
+      and client_id = #{clientId,jdbcType=BIGINT}
+      and book_id = #{bookId,jdbcType=BIGINT}
+  </update>
+</mapper>

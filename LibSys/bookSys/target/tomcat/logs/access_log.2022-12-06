@@ -1,0 +1,10 @@
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:02:41 +0800] "GET / HTTP/1.1" 200 104 http-bio-80-exec-1 89
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:02:42 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-3 3
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:00 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-5 2
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:00 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-7 2
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:01 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-6 1
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:01 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-8 1
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:02 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-9 0
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:02 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-80-exec-10 1
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:03:05 +0800] "GET /demo1 HTTP/1.1" 200 - http-bio-80-exec-4 3
+0:0:0:0:0:0:0:1 - - [06/Dec/2022:10:04:03 +0800] "GET /demo1 HTTP/1.1" 200 - http-bio-80-exec-4 1

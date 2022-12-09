@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hfut.mapper.VipMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.hfut.model.Vip">
+    <constructor>
+      <idArg column="vip_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="vip_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="vip_deposit" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="vip_rent_discount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="vip_sell_discount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="vip_borrow_num" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="vip_renew" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="vip_borrow_date" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="vip_time" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="vip_overdue" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="vip_damage" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="vip_lose" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    vip_id, vip_name, vip_deposit, vip_rent_discount, vip_sell_discount, vip_borrow_num, 
+    vip_renew, vip_borrow_date, vip_time, vip_overdue, vip_damage, vip_lose
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vip
+    where vip_id = #{vipId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vip
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vip
+    where vip_id = #{vipId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.hfut.model.Vip">
+    insert into vip (vip_name, vip_deposit,
+      vip_rent_discount, vip_sell_discount, vip_borrow_num, 
+      vip_renew, vip_borrow_date, vip_time, 
+      vip_overdue, vip_damage, vip_lose
+      )
+    values (#{vipName,jdbcType=VARCHAR}, #{vipDeposit,jdbcType=DECIMAL},
+      #{vipRentDiscount,jdbcType=DECIMAL}, #{vipSellDiscount,jdbcType=DECIMAL}, #{vipBorrowNum,jdbcType=SMALLINT}, 
+      #{vipRenew,jdbcType=SMALLINT}, #{vipBorrowDate,jdbcType=SMALLINT}, #{vipTime,jdbcType=SMALLINT}, 
+      #{vipOverdue,jdbcType=DECIMAL}, #{vipDamage,jdbcType=DECIMAL}, #{vipLose,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.hfut.model.Vip">
+    insert into vip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vipId != null">
+        vip_id,
+      </if>
+      <if test="vipName != null">
+        vip_name,
+      </if>
+      <if test="vipDeposit != null">
+        vip_deposit,
+      </if>
+      <if test="vipRentDiscount != null">
+        vip_rent_discount,
+      </if>
+      <if test="vipSellDiscount != null">
+        vip_sell_discount,
+      </if>
+      <if test="vipBorrowNum != null">
+        vip_borrow_num,
+      </if>
+      <if test="vipRenew != null">
+        vip_renew,
+      </if>
+      <if test="vipBorrowDate != null">
+        vip_borrow_date,
+      </if>
+      <if test="vipTime != null">
+        vip_time,
+      </if>
+      <if test="vipOverdue != null">
+        vip_overdue,
+      </if>
+      <if test="vipDamage != null">
+        vip_damage,
+      </if>
+      <if test="vipLose != null">
+        vip_lose,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vipId != null">
+        #{vipId,jdbcType=BIGINT},
+      </if>
+      <if test="vipName != null">
+        #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipDeposit != null">
+        #{vipDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="vipRentDiscount != null">
+        #{vipRentDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="vipSellDiscount != null">
+        #{vipSellDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="vipBorrowNum != null">
+        #{vipBorrowNum,jdbcType=SMALLINT},
+      </if>
+      <if test="vipRenew != null">
+        #{vipRenew,jdbcType=SMALLINT},
+      </if>
+      <if test="vipBorrowDate != null">
+        #{vipBorrowDate,jdbcType=SMALLINT},
+      </if>
+      <if test="vipTime != null">
+        #{vipTime,jdbcType=SMALLINT},
+      </if>
+      <if test="vipOverdue != null">
+        #{vipOverdue,jdbcType=DECIMAL},
+      </if>
+      <if test="vipDamage != null">
+        #{vipDamage,jdbcType=DECIMAL},
+      </if>
+      <if test="vipLose != null">
+        #{vipLose,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.hfut.model.Vip">
+    update vip
+    <set>
+      <if test="vipName != null">
+        vip_name = #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipDeposit != null">
+        vip_deposit = #{vipDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="vipRentDiscount != null">
+        vip_rent_discount = #{vipRentDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="vipSellDiscount != null">
+        vip_sell_discount = #{vipSellDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="vipBorrowNum != null">
+        vip_borrow_num = #{vipBorrowNum,jdbcType=SMALLINT},
+      </if>
+      <if test="vipRenew != null">
+        vip_renew = #{vipRenew,jdbcType=SMALLINT},
+      </if>
+      <if test="vipBorrowDate != null">
+        vip_borrow_date = #{vipBorrowDate,jdbcType=SMALLINT},
+      </if>
+      <if test="vipTime != null">
+        vip_time = #{vipTime,jdbcType=SMALLINT},
+      </if>
+      <if test="vipOverdue != null">
+        vip_overdue = #{vipOverdue,jdbcType=DECIMAL},
+      </if>
+      <if test="vipDamage != null">
+        vip_damage = #{vipDamage,jdbcType=DECIMAL},
+      </if>
+      <if test="vipLose != null">
+        vip_lose = #{vipLose,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where vip_id = #{vipId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.hfut.model.Vip">
+    update vip
+    set vip_name = #{vipName,jdbcType=VARCHAR},
+      vip_deposit = #{vipDeposit,jdbcType=DECIMAL},
+      vip_rent_discount = #{vipRentDiscount,jdbcType=DECIMAL},
+      vip_sell_discount = #{vipSellDiscount,jdbcType=DECIMAL},
+      vip_borrow_num = #{vipBorrowNum,jdbcType=SMALLINT},
+      vip_renew = #{vipRenew,jdbcType=SMALLINT},
+      vip_borrow_date = #{vipBorrowDate,jdbcType=SMALLINT},
+      vip_time = #{vipTime,jdbcType=SMALLINT},
+      vip_overdue = #{vipOverdue,jdbcType=DECIMAL},
+      vip_damage = #{vipDamage,jdbcType=DECIMAL},
+      vip_lose = #{vipLose,jdbcType=DECIMAL}
+    where vip_id = #{vipId,jdbcType=BIGINT}
+  </update>
+</mapper>
